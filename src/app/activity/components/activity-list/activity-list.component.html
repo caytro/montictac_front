@@ -1,0 +1,2 @@
+<app-activity *ngFor="let activity of activities" [activity]="activity"></app-activity>
+<app-activity *ngFor="let activity of activities$ | async " [activity]="activity"></app-activity>

@@ -1,0 +1,22 @@
+div.activity{
+    
+    button{
+        background-color: green;
+        border-radius: 10px;
+        width:50%;
+        text-align: center;
+        color:white;
+        font-size: large;
+        padding: 10px;
+    
+    }
+    &.running{
+        border-color: green;
+        box-shadow: 5px 5px 5px green;
+        background-color: lightgreen;
+        button{
+            background-color: red;
+        }
+        
+    }
+}

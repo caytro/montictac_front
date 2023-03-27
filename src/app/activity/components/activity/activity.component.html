@@ -1,0 +1,5 @@
+<div class="activity card" [class]="activity.running ? 'running' : ''">
+    <h2>{{ activity.title }}</h2>
+    <p>{{ activity.description }}</p>
+    <p><button (click)="onActivityStartStopButtonClick()" >{{ buttonText }}!</button></p>
+</div>

@@ -1,0 +1,17 @@
+div.form-group {
+    margin: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+input {
+    width: 50%;
+    font-size:large;
+    border-radius: 1em;;
+}
+
+button{
+    width: 50%;
+    margin-left: 25%;
+}
