@@ -1,5 +1,9 @@
-<div class="activity card" [class]="activity.running ? 'running' : ''">
+<div class="activity card" [class]="isRunning() ? 'running' : ''">
     <h2>{{ activity.title }}</h2>
     <p>{{ activity.description }}</p>
     <p><button (click)="onActivityStartStopButtonClick()" >{{ buttonText }}!</button></p>
+    <p *ngFor = "let period of activity.periods" >
+        <span>Start : {{ period.start | date:'medium' }}</span> 
+        <span *ngIf = "period.stop !== null"> --> Stop {{ period.stop | date:'medium' }}</span> 
+    </p>
 </div>

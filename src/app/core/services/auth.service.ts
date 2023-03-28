@@ -1,12 +1,38 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-
+import { Router } from '@angular/router';
+import * as moment from 'moment';
+import { Observable, switchMap, tap } from 'rxjs';
+import { Token } from '../models/token.model';
+import { User } from '../models/user.model';
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE2Nzk5MjU4NDIsImV4cCI6MTY3OTk1NDY0Miwicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoic3lsdmFpbkBtb250aWN0YWMuZnIifQ.Xd6R9vfhHSHNJ9H6ITa4edBefaxoeOspBUqMRGL5GtEKLc35xlQQcTvfw6QN28J6oHrq8SsIk57bz5yp80VTV51001KhM6mzCeRs9St7eA5-dD22xd0uigw4WY2YIv6poIvjLiJcoIJubCqScjt1m4okUyXYo3W6_ljCBPBLlf-P58R478S9oiC-M3SB2hj82P5RT89PFeIY5noKbyTHMUgNDFvxAqTs0iuimKz1CCylTTXqr1kUD4hEyOCqVoWOzWJ-zYISgo_EIk0i5RkYNHfSHWgU285GsbWaYiRrPkvwtLWOf6guuDI9bZMlXh7TTQKAb6JLHyZFvQj2qdoUCINRFDhq0C0SHJ6lj-bfb6dsFI6tLDnTCaxXDErLxx0QttP7clY2x3d7ivjgPXjljTWVc7pKR91pUkNpzYV9crp-8I8Gxs9pv9kD4QA6sOnOZxYodVF7O_FfvP-HCIgDdpszomJXga6w38iU-Xnq8SUeKOoiT9caXneLZiurdUr20hXGh1lIqyz5rTD--nx336YkT8ma0TFmWdq799HGywgY3n7Jc6_sKtmcbXKVzIOjfsOUpgHqYpTp5DLK0Xmdwh0IqZOvI8_YV81yLUxE1VorX4FrF7BZvX89lCfytMdAUIBBTZXK-2ifJXn-v032PwNdnRztAkAngztWaXQUwR8';
+  private token !: Token;
   
-  getToken(): string {
-    return this.token;
+  constructor(private http: HttpClient, private router : Router) { }
+
+  getToken(): string | null {
+    return localStorage.getItem('id_token') ;
   }
+
+  
+  login(email: string, password: string) : void{
+    this.http.post<Token>('http://localhost:8000/api/login_check', new User(email,password)).pipe(
+      tap(token => this.setSession(token)),
+      tap(token => this.router.navigateByUrl('')))
+      .subscribe();
+  }
+
+  logout():void{
+    localStorage.removeItem('id_token');
+  }
+
+  private setSession(token: Token) :Token{
+    localStorage.setItem('id_token', token.token);
+    return token;
+  }
+
 }
+

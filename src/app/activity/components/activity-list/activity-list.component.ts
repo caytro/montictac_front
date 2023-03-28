@@ -11,7 +11,6 @@ import { MonTicTacService } from 'src/app/core/services/montictac.service';
 })
 export class ActivityListComponent implements OnInit{
 
-  activities!: Activity[];
   activities$!: Observable<Activity[]>;
   
   constructor( private service: MonTicTacService){
@@ -19,7 +18,6 @@ export class ActivityListComponent implements OnInit{
   }
 
   ngOnInit(){
-    this.activities = this.service.activities;
     this.activities$ = this.service.getAllActivities();
   }
 

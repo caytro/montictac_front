@@ -1,11 +1,17 @@
+import { Period } from "./period.model";
+
 export class Activity {
+    id!: number;
     title!: string;
     description!: string;
-    running!: boolean;
+    periods!: Period[];
+    
 
-    constructor(title: string, description:string, running: boolean){
+    constructor(id: number,title: string, description:string, periods: Period[]){
+        this.id = id;
         this.title = title;
         this.description = description;
-        this.running = running;
+        this.periods = periods;
+        
     }
 }

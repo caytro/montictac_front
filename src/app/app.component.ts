@@ -10,6 +10,6 @@ export class AppComponent implements OnInit{
   activity!: Activity;
 
   ngOnInit(){
-    this.activity = new Activity('Codding MonTicTac Front', 'Using Angular', false);
+ 
   }
 }
