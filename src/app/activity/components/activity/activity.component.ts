@@ -1,9 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { tap } from 'rxjs';
+import { interval, map, Observable, tap } from 'rxjs';
 import { Period } from 'src/app/core/models/period.model';
 import { MonTicTacService } from 'src/app/core/services/montictac.service';
 import { Activity } from '../../../core/models/activity.model';
+import { ActivityListComponent } from '../activity-list/activity-list.component';
 
 @Component({
   selector: 'app-activity',
@@ -13,28 +14,38 @@ import { Activity } from '../../../core/models/activity.model';
 
 export class ActivityComponent implements OnInit {
   @Input() activity!: Activity;
+  @Input() activityList !: ActivityListComponent;
 
   constructor(private tictacService: MonTicTacService, private router: Router) { }
 
-  buttonText!: string;
+  buttonStartStopText!: string;
+  periodListVisiblility: Boolean = false;
+  buttonDisplayHidePeriodListText!: string;
+  totalRunningPeriodTime$!: Observable<string>;
+  totalRunningActivityTime$!: Observable<string>;
 
   ngOnInit() {
-    this.buttonText = this.isRunning() ? "Stop" : "Start";
-    console.log(Activity);
+    this.setButtonStartStopText();
+    this.setbuttonDisplayHidePeriodListText();
+    this.totalRunningActivityTime$ = interval(1000).pipe(
+      map(()=>this.getTotalTimeToString())      
+    );
+    this.totalRunningPeriodTime$ = interval(1000).pipe(
+      map(()=>this.getPeriodTimeToString(this.activity.periods[0]))      
+    );
+
   }
 
-  onActivityStartStopButtonClick(): void {
-    if (this.isRunning()) {
-      this.tictacService.stopActivity(this.activity).pipe(
-        tap(() => window.location.reload()))
-        .subscribe();
-    }
-    else {
-      this.tictacService.startActivity(this.activity).pipe(
-        tap(() => window.location.reload()))
-        .subscribe();
+  setButtonStartStopText() {
+    this.buttonStartStopText = this.isRunning() ? "Stop" : "Start";
+  }
 
-    }
+  setbuttonDisplayHidePeriodListText(){
+    this.buttonDisplayHidePeriodListText = this.periodListVisiblility ? "Masquer" : "Voir";
+  }
+
+  refreshActivities(): void {
+    this.activityList.ngOnInit();
   }
 
   isRunning(): boolean {
@@ -49,11 +60,50 @@ export class ActivityComponent implements OnInit {
     return false;
   }
 
-  getLastPeriod(): Period | null {
-    const periods = this.activity.periods;
-    if (periods.length === 0) {
-      return null;
+
+  
+  getTotalTime() : number{
+    let totalTime: number = 0;
+    for (let i = 0; i < this.activity.periods.length; i++) {
+      totalTime += this.tictacService.getPeriodDurationSeconds(this.activity.periods[i]);
     }
-    return periods.sort((a, b) => a.start.getTime() - b.start.getTime())[periods.length - 1];
+    return totalTime;
+  }
+
+  getTotalTimeToString(): string{
+    return this.tictacService.convertSecondsToString(this.getTotalTime());
+  }
+
+  getPeriodTimeToString(period : Period): string{
+    return this.tictacService.convertSecondsToString(this.tictacService.getPeriodDurationSeconds(period));
+  }
+
+  
+
+  
+  onClickDisplayHidePeriodList(){
+    this.periodListVisiblility = !this.periodListVisiblility;
+    this.setbuttonDisplayHidePeriodListText();
+  }
+
+
+  onActivityStartStopButtonClick(): void {
+    if (this.isRunning()) {
+      this.tictacService.stopActivity(this.activity).pipe(
+        tap((activity) => this.activity = activity),
+        tap(() => this.setButtonStartStopText()),
+        tap(() => this.refreshActivities()),
+      )
+        .subscribe();
+    }
+    else {
+      this.tictacService.startActivity(this.activity).pipe(
+        tap((activity) => this.activity = activity),
+        tap(() => this.setButtonStartStopText()),
+        tap(() => this.refreshActivities())
+      )
+        .subscribe();
+
+    }
   }
 }

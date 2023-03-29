@@ -3,13 +3,15 @@ import { CommonModule } from '@angular/common';
 import { ActivityComponent } from './components/activity/activity.component';
 import { ActivityListComponent } from './components/activity-list/activity-list.component';
 import { RouterModule } from '@angular/router';
+import { PeriodComponent } from './components/period/period.component';
 
 
 
 @NgModule({
   declarations: [
     ActivityComponent,
-    ActivityListComponent
+    ActivityListComponent,
+    PeriodComponent
   ],
   imports: [
     CommonModule,
@@ -17,7 +19,8 @@ import { RouterModule } from '@angular/router';
   ],
   exports:[
     ActivityComponent,
-    ActivityListComponent
+    ActivityListComponent,
+    PeriodComponent
   ]
 })
 export class ActivityModule { }

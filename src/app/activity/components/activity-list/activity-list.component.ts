@@ -13,12 +13,13 @@ export class ActivityListComponent implements OnInit{
 
   activities$!: Observable<Activity[]>;
   
-  constructor( private service: MonTicTacService){
+  constructor( private tictacService: MonTicTacService){
 
   }
 
   ngOnInit(){
-    this.activities$ = this.service.getAllActivities();
+    //this.activities$ = this.tictacService.getAllActivities();
+    this.activities$ = this.tictacService.getAllActivitiesOrderByLastStart();
   }
 
 }

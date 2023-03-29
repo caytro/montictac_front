@@ -10,6 +10,7 @@ import { CoreModule } from './core/core.module';
 import { ActivityModule } from './activity/activity.module';
 import { AuthModule } from './auth/auth.module';
 
+
 @NgModule({
   declarations: [
     AppComponent,

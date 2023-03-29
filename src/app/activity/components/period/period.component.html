@@ -1,0 +1,15 @@
+<div class="periodContainer">
+    <div class="period">
+
+        <span>{{ period.start | date:'medium' }}</span>
+        <span *ngIf="period.stop !== null"> --> {{ period.stop | date:'medium' }}</span>
+
+
+        <div class="buttonBox">
+
+        </div>
+        <div class="duration">
+            <p>{{ activity.getPeriodTimeToString(period) }}</p>
+        </div>
+    </div>
+</div>

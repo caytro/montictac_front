@@ -1,22 +1,60 @@
-div.activity{
-    
-    button{
+
+div.activity {
+    padding-bottom:1em;
+    button.startStop {
         background-color: green;
         border-radius: 10px;
-        width:50%;
+        width: 50%;
         text-align: center;
-        color:white;
+        color: white;
         font-size: large;
         padding: 10px;
-    
+
     }
-    &.running{
+
+    &.running {
         border-color: green;
         box-shadow: 5px 5px 5px green;
         background-color: lightgreen;
-        button{
+
+        button {
             background-color: red;
         }
-        
+
+    }
+
+    div.periods {
+        display: flex;
+        flex-direction: column;
+
+        div.header {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            margin: 0em 1em 0em;
+
+            div.buttonBox {
+                display:flex;
+                flex-direction: row;
+                button{
+                    background-color: rgba(0,0,0,0.3);
+                    border-color: rgba(0,0,0,0.3);
+                    padding: 0.5em;
+                    border-radius: 1em;
+                    color: #ff8;
+                }
+            }
+
+            
+        }
+
+        div.periodList {
+            
+            &.hidden {
+                display:none;
+            }
+        }
+
     }
 }
