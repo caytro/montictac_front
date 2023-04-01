@@ -1,20 +1,36 @@
 <div class="activity card" [class]="isRunning() ? 'running' : ''">
-    <h2>{{ activity.title }}</h2>
-    <p>{{ activity.description }}</p>
-    <p><button (click)="onActivityStartStopButtonClick()" class="startStop">{{ buttonStartStopText }}!</button></p>
-    <div class="startedAt" *ngIf="isRunning()">Démarré le {{ activity.periods[0].start | date:'medium' }} - {{ totalRunningPeriodTime$ | async }}</div>
+    <div class="activityHeader">
+        <div class="title">
+            <h2>{{ activity.title }}</h2>
+            <p>{{ activity.description }}</p>
+        </div>
+        <div class="buttonBox">
+            <button class="deleteActivity" (click)="onClickShowHideActivity()">
+                <img [src]="buttonDeleteActivityImgUrl" alt="">
+            </button>
+        </div>
+    </div>
+    <div class="startStop">
+        <button (click)="onClickActivityStartStopButton()" class="startStop">
+            {{ buttonStartStopText }} !
+        </button>
+    </div>
+    <div class="startedAt" *ngIf="isRunning()">Démarré le {{ activity.periods[0].start | date:'medium' }} - {{
+        totalRunningPeriodTime$ | async }}
+    </div>
     <div class="periods">
-        <div class="header">
-            <div class="totalTime">Total {{ totalRunningActivityTime$ | async }}</div>
+        <div class="periodsHeader">
+            <div *ngIf="isRunning()" class="totalTime">Total {{ totalRunningActivityTime$ | async }}</div>
+            <div *ngIf="!isRunning()" class="totalTime">Total {{ getTotalTimeToString() }} </div>
             <div class="buttonBox">
                 <button (click)="onClickDisplayHidePeriodList()">
                     <span>{{ buttonDisplayHidePeriodListText }}</span>
                 </button>
             </div>
-
         </div>
-        <div class="periodList" [class]="periodListVisiblility ? 'visible' : 'hidden'">
-            <app-period *ngFor="let period of activity.periods" [period]="period" [activity]="this"></app-period>
+        <div class="periodList" [ngClass]="periodListVisiblility ? 'visible' : 'hidden'">
+            <app-period *ngFor="let period of activity.periods" [period]="period"
+                [activityComponent]="this"></app-period>
         </div>
     </div>
 

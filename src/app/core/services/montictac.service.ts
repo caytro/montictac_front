@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { map, Observable, switchMap } from "rxjs";
+import { ActivityComponent } from "src/app/activity/components/activity/activity.component";
 
 import { Activity } from "../models/activity.model";
 import { Period } from "../models/period.model";
@@ -21,14 +22,19 @@ export class MonTicTacService {
       'Accept': '*/*'
     })
   }
+  serverUrl: string = 'http://localhost:8000/api';
 
 
   constructor(private http: HttpClient) {
   }
 
+  /*
+   * Activities
+   */
 
   getAllActivities(): Observable<Activity[]> {
-    return this.http.get<Activity[]>('http://localhost:8000/api/activity/list');
+    const url = this.serverUrl + "/activity/list"
+    return this.http.get<Activity[]>(url);
   }
 
   getAllActivitiesOrderByLastStart(): Observable<Activity[]> {
@@ -38,24 +44,25 @@ export class MonTicTacService {
       ));
   }
   getActivityById(id: number): Observable<Activity> {
-    return this.http.get<Activity>('http://localhost:8000/api/activity/' + id);
+    const url = this.serverUrl + "/activity/" + id;
+    return this.http.get<Activity>(url);
   }
 
+
+
   stopActivity(activity: Activity): Observable<Activity> {
-    return this.http.get<Activity>('http://localhost:8000/api/activity/stop/' + activity.id).pipe(
-      switchMap((activity) => this.getActivityById(activity.id))
-    );
+    const url = this.serverUrl + '/activity/stop/' + activity.id;
+    return this.http.get<Activity>(url);
   }
 
   startActivity(activity: Activity): Observable<Activity> {
-    return this.http.get<Activity>('http://localhost:8000/api/activity/start/' + activity.id).pipe(
-      switchMap((activity) => this.getActivityById(activity.id))
-    );
+    const url = this.serverUrl + '/activity/start/' + activity.id;
+    return this.http.get<Activity>(url);
   }
 
   sortActivityPeriods(activity: Activity, direction: string): Activity {
     console.log(activity);
-    activity.periods = activity.periods.sort((a, b) => (direction ==="asc" ? -1 :1) * (new Date(b.start).getTime() - new Date(a.start).getTime()));
+    activity.periods = activity.periods.sort((a, b) => (direction === "asc" ? -1 : 1) * (new Date(b.start).getTime() - new Date(a.start).getTime()));
     return activity;
   }
 
@@ -64,17 +71,37 @@ export class MonTicTacService {
     return activities;
   }
 
-  sortActivitiesBylastStart(activities: Activity[]) : Activity[]{
-    activities = this.sortActivitiesPeriods(activities,'desc');
-    activities.sort((a,b) => {
-      let astart=(a.periods.length >0 ? new Date(a.periods[0].start).getTime() : 0);
-      let bstart=(b.periods.length >0 ? new Date(b.periods[0].start).getTime() : 0);
-    return bstart-astart;
-  })
+  sortActivitiesBylastStart(activities: Activity[]): Activity[] {
+    activities = this.sortActivitiesPeriods(activities, 'desc');
+    activities.sort((a, b) => {
+      let astart = (a.periods.length > 0 ? new Date(a.periods[0].start).getTime() : 0);
+      let bstart = (b.periods.length > 0 ? new Date(b.periods[0].start).getTime() : 0);
+      return bstart - astart;
+    })
     return activities;
   }
 
-  
+  sortActivityComponentsByLastStart(activityComponents: ActivityComponent[]): ActivityComponent[] {
+
+    for (let activityComponent of activityComponents) {
+      activityComponent.activity = this.sortActivityPeriods(activityComponent.activity, 'desc');
+    }
+    activityComponents.sort((a, b) => {
+      let astart = (a.activity.periods.length > 0 ? new Date(a.activity.periods[0].start).getTime() : 0);
+      let bstart = (b.activity.periods.length > 0 ? new Date(b.activity.periods[0].start).getTime() : 0);
+      return bstart - astart;
+    });
+    return activityComponents;
+
+  }
+
+  /*
+   * Periodes
+   */
+
+  deletePeriod(period: Period): Observable<Object> {
+    return this.http.delete('http://localhost:8000/api/period/' + period.id);
+  }
 
   getPeriodDurationSeconds(period: Period): number {
     let start = new Date(period.start).getTime();
@@ -90,7 +117,7 @@ export class MonTicTacService {
 
   convertSecondsToString(seconds: number): string {
 
-    if (seconds==0){
+    if (seconds == 0) {
       return '0 seconde';
     }
     let secondsByDay: number = 86400;

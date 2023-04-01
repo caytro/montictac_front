@@ -1,6 +1,36 @@
-div.period{
-    border-width:thin; 
+div.periodContainer{
+    margin: 1em;
+    border-width:thick; 
     border-radius: 1em;
-    border-color: black;
-    border-style: double;
+    border-color: rgba(0,0,0,0.3);
+    border-style: inset;
+    display: flex;
+    flex-direction: column;
+    div.header{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 0.5em 1em 0;
+        div.title{
+            flex-grow:1;
+            font-weight: bold;
+        }
+        div.buttonBox {
+            display:flex;
+            flex-direction: row;
+            button{
+                background-color: rgba(0,0,0,0.3);
+                border-color: rgba(0,0,0,0.3);
+                border-radius: 0.5em;
+                color: #ff8;
+                margin: 0 0.1em 0;
+            }
+        }
+    }
+    div.periodContent{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+    }
 }

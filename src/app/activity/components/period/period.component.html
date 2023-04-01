@@ -1,15 +1,27 @@
 <div class="periodContainer">
-    <div class="period">
-
-        <span>{{ period.start | date:'medium' }}</span>
-        <span *ngIf="period.stop !== null"> --> {{ period.stop | date:'medium' }}</span>
-
-
-        <div class="buttonBox">
-
+    <div class="header">
+        <div class="title">
+            {{ period.title | titlecase }}
         </div>
-        <div class="duration">
-            <p>{{ activity.getPeriodTimeToString(period) }}</p>
+        <div class="buttonBox">
+            <button class="edit">
+                <img [src]= "buttonEditImgUrl"  alt="Editer">
+            </button>
+            <button class="delete" (click)="onClickButtonDelete()">
+                <img [src]="buttonDeleteImgUrl" alt="Supprimer">
+            </button>
         </div>
     </div>
+    <div class="periodContent">
+        <div class="startStop">
+            <div class="start">{{ period.start | date:'medium' }}</div>
+            <div *ngIf="period.stop !== null" class="stop"> {{ period.stop | date:'medium' }}</div>
+        </div>
+        <div class="duration">
+            <p *ngIf="!period.stop">{{ periodDurationText$ | async }}</p>
+            <p *ngIf="period.stop">{{ getDurationText() }}</p>
+            
+        </div>
+    </div>
+
 </div>

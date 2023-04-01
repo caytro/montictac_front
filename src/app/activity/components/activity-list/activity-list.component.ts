@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Activity } from 'src/app/core/models/activity.model';
 import { MonTicTacService } from 'src/app/core/services/montictac.service';
+import { ActivityComponent } from '../activity/activity.component';
 
 
 @Component({
@@ -12,14 +13,19 @@ import { MonTicTacService } from 'src/app/core/services/montictac.service';
 export class ActivityListComponent implements OnInit{
 
   activities$!: Observable<Activity[]>;
+  activityComponents : ActivityComponent[] = [];
+  
   
   constructor( private tictacService: MonTicTacService){
 
   }
 
   ngOnInit(){
-    //this.activities$ = this.tictacService.getAllActivities();
-    this.activities$ = this.tictacService.getAllActivitiesOrderByLastStart();
+    this.activities$ = this.updateActivities();    
   }
 
+  updateActivities():Observable<Activity[]>{
+    return this.activities$ = this.tictacService.getAllActivitiesOrderByLastStart();
+  }
+  
 }
