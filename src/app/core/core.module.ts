@@ -3,6 +3,7 @@ import { CommonModule, registerLocaleData } from '@angular/common';
 import { httpInterceptorProviders } from './interceptors';
 import * as fr from '@angular/common/locales/fr';
 import { HeaderComponent } from './header/header.component';
+import { MaterialModule } from './material.module';
 
 
 
@@ -12,9 +13,11 @@ import { HeaderComponent } from './header/header.component';
   ],
   imports: [
     CommonModule,
+    MaterialModule
   ],
   exports: [
-    HeaderComponent
+    HeaderComponent,
+    MaterialModule
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'fr-FR' },

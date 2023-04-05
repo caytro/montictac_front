@@ -1,16 +1,8 @@
 div.activity {
-    width: 50%;
-    border-width: 2px;
-    border-color: gray;
-    border-style: ridge;
-    border-radius: 10px;
-    box-shadow: 5px 5px 3px darkgray;
-    background-color: lightgray;
-    margin-left: 25%;
-    margin-bottom: 0.5em;
-    padding-bottom: 1em;
+    
     display: flex;
     flex-direction: column;
+    padding-bottom: 0.5em;
     
     div.activityHeader {
         display: flex;

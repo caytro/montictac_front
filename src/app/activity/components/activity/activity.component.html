@@ -15,8 +15,9 @@
             {{ buttonStartStopText }} !
         </button>
     </div>
-    <div class="startedAt" *ngIf="isRunning()">Démarré le {{ activity.periods[0].start | date:'medium' }} - {{
-        totalRunningPeriodTime$ | async }}
+    <div class="startedAt" *ngIf="isRunning()">
+        <p>Démarré le {{ activity.periods[0].start | date:'medium' }}</p>
+        <p>{{ totalRunningPeriodTime$ | async }}</p>
     </div>
     <div class="periods">
         <div class="periodsHeader">
@@ -30,7 +31,7 @@
         </div>
         <div class="periodList" [ngClass]="periodListVisiblility ? 'visible' : 'hidden'">
             <app-period *ngFor="let period of activity.periods" [period]="period"
-                [activityComponent]="this"></app-period>
+                [activityComponent]="this" (editPeriodTitle)="onEditPeriodTitle($event)"></app-period>
         </div>
     </div>
 

@@ -4,7 +4,12 @@ import { ActivityComponent } from './components/activity/activity.component';
 import { ActivityListComponent } from './components/activity-list/activity-list.component';
 import { RouterModule } from '@angular/router';
 import { PeriodComponent } from './components/period/period.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+//Material
+
+import { MaterialModule } from '../core/material.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -16,11 +21,17 @@ import { PeriodComponent } from './components/period/period.component';
   imports: [
     CommonModule,
     RouterModule,
+    FormsModule,
+    MaterialModule,
+    BrowserAnimationsModule,
+    ReactiveFormsModule
   ],
   exports:[
     ActivityComponent,
     ActivityListComponent,
-    PeriodComponent
+    PeriodComponent,
+    BrowserAnimationsModule,
+    ReactiveFormsModule
   ]
 })
 export class ActivityModule { }

@@ -99,8 +99,19 @@ export class MonTicTacService {
    * Periodes
    */
 
+  getPeriodById(id: number): Observable<Period>{
+    const url = this.serverUrl + "/period/" + id;
+    return this.http.get<Period>(url);
+  }
+  updatePeriodTitle(period:Period, title: string): Observable<Period>{
+    const url = this.serverUrl + '/period/setTitle/' + period.id;
+    console.log(title);
+    return this.http.put<Period>(url, ({'title':  title}));
+  }
+
   deletePeriod(period: Period): Observable<Object> {
-    return this.http.delete('http://localhost:8000/api/period/' + period.id);
+    const url = this.serverUrl + '/period/' + period.id;
+    return this.http.delete(url);
   }
 
   getPeriodDurationSeconds(period: Period): number {

@@ -1,22 +1,29 @@
 /* You can add global styles to this file, and also import other style files */
-*{
-    font-family: Arial, Helvetica, sans-serif;
+
+@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+
+
+html,
+body {
+    height: 100%;
 }
 
-body{
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
     background-color: #EEE;
 }
- /*
-div.card{
-    width:50%;
-    border-width:2px;
-    border-color:gray;
-    border-style:ridge;
+
+div.card {
+    width: 50%;
+    border-width: 2px;
+    border-color: gray;
+    border-style: ridge;
     border-radius: 10px;
-    box-shadow: 5px 5px 3px darkgray; 
-    background-color:lightgray;
+    box-shadow: 5px 5px 3px darkgray;
+    background-color: lightgray;
     text-align: center;
     margin-left: 25%;
     margin-top: 7px;
- }
- */
+}

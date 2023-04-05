@@ -1,27 +1,44 @@
 <div class="periodContainer">
     <div class="header">
         <div class="title">
-            {{ period.title | titlecase }}
-        </div>
-        <div class="buttonBox">
-            <button class="edit">
-                <img [src]= "buttonEditImgUrl"  alt="Editer">
-            </button>
-            <button class="delete" (click)="onClickButtonDelete()">
-                <img [src]="buttonDeleteImgUrl" alt="Supprimer">
-            </button>
-        </div>
+            <div class="displayTitle" [ngClass]="isVisibleFormPeriodTitle ? 'hidden' : 'visible'">
+                <div class="titleText">
+                    {{ period.title ? (period.title | titlecase) : 'Titre' }}
+                </div>
+                <div class="buttonBox">
+                    <button class="edit" (click)="onClickButtonEditTitle()">
+                        <img [src]="buttonEditImgUrl" alt="Editer">
+                    </button>
+                    <button class="delete" (click)="onClickButtonDelete()">
+                        <img [src]="buttonDeleteImgUrl" alt="Supprimer">
+                    </button>
+                </div>
+            </div>
+            <div class="formTitle" [ngClass]="isVisibleFormPeriodTitle ? 'visible' : 'hidden'">
+                <mat-form-field>
+                    <input type="text" matInput placeholder = "Titre de période" [formControl] = "titleCtrl">
+                </mat-form-field>
+                <button mat-icon-button color="primary" (click)="onSubmitTitleForm()">
+                    <mat-icon>send</mat-icon>
+                </button>
+            </div> <!-- formTitle-->
+        </div> <!-- title -->
+
+
     </div>
     <div class="periodContent">
         <div class="startStop">
-            <div class="start">{{ period.start | date:'medium' }}</div>
-            <div *ngIf="period.stop !== null" class="stop"> {{ period.stop | date:'medium' }}</div>
+            <div class="start">
+                Du {{ period.start | date:'medium' }}
+            </div>
+            <div *ngIf="period.stop !== null" class="stop">
+                Au {{ period.stop | date:'medium' }}
+            </div>
         </div>
         <div class="duration">
             <p *ngIf="!period.stop">{{ periodDurationText$ | async }}</p>
             <p *ngIf="period.stop">{{ getDurationText() }}</p>
-            
+
         </div>
     </div>
-
 </div>

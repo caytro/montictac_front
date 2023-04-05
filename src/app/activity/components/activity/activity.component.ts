@@ -13,6 +13,9 @@ import { ActivityListComponent } from '../activity-list/activity-list.component'
 })
 
 export class ActivityComponent implements OnInit {
+  onEditTitle($event: string) {
+    throw new Error('Method not implemented.');
+  }
   @Input() activity!: Activity;
   @Input() activityListComponent !: ActivityListComponent;
 
@@ -104,12 +107,12 @@ export class ActivityComponent implements OnInit {
   }
 
 
-  onClickShowHideActivity(): void{
+  onClickShowHideActivity(): void {
     this.activityListComponent.ngOnInit();
     console.log(this.activityListComponent);
   }
 
-  onClickDisplayHidePeriodList():void {
+  onClickDisplayHidePeriodList(): void {
     this.periodListVisiblility = !this.periodListVisiblility;
     this.setbuttonDisplayHidePeriodListText();
   }
@@ -141,5 +144,17 @@ export class ActivityComponent implements OnInit {
       ).subscribe();
 
     }
+
+
+  }
+  // Period events
+
+  onEditPeriodTitle(editedTitle: {title:string, period: Period}) {
+    this.tictacService.updatePeriodTitle(editedTitle.period,editedTitle.title).pipe(
+      tap((updatedPeriod: Period) =>  {
+        let periodId = this.activity.periods.findIndex(period => period.id === editedTitle.period.id);
+        this.activity.periods[periodId] = updatedPeriod;
+      })
+    ).subscribe();
   }
 }
