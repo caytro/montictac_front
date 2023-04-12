@@ -1,44 +1,31 @@
-<div class="periodContainer">
+<div class="formPeriod" *ngIf="isVisiblePeriodForm">
+    <app-period-form></app-period-form>
+</div>
+<div class="periodContainer" *ngIf="!isVisiblePeriodForm">
     <div class="header">
-        <div class="title">
-            <div class="displayTitle" [ngClass]="isVisibleFormPeriodTitle ? 'hidden' : 'visible'">
-                <div class="titleText">
-                    {{ period.title ? (period.title | titlecase) : 'Titre' }}
-                </div>
-                <div class="buttonBox">
-                    <button class="edit" (click)="onClickButtonEditTitle()">
-                        <img [src]="buttonEditImgUrl" alt="Editer">
-                    </button>
-                    <button class="delete" (click)="onClickButtonDelete()">
-                        <img [src]="buttonDeleteImgUrl" alt="Supprimer">
-                    </button>
-                </div>
-            </div>
-            <div class="formTitle" [ngClass]="isVisibleFormPeriodTitle ? 'visible' : 'hidden'">
-                <mat-form-field>
-                    <input type="text" matInput placeholder = "Titre de période" [formControl] = "titleCtrl">
-                </mat-form-field>
-                <button mat-icon-button color="primary" (click)="onSubmitTitleForm()">
-                    <mat-icon>send</mat-icon>
-                </button>
-            </div> <!-- formTitle-->
-        </div> <!-- title -->
-
-
+        <div class="titleText">
+            {{ period.title ? (period.title ) : 'Période sans titre' }}
+        </div>
+        <div class="buttonBox">
+            <button class="edit" (click)="onClickButtonEditTitle()">
+                <img [src]="buttonEditImgUrl" alt="Editer">
+            </button>
+            <button class="delete" (click)="onClickButtonDelete()">
+                <img [src]="buttonDeleteImgUrl" alt="Supprimer">
+            </button>
+        </div>
     </div>
-    <div class="periodContent">
-        <div class="startStop">
-            <div class="start">
-                Du {{ period.start | date:'medium' }}
-            </div>
-            <div *ngIf="period.stop !== null" class="stop">
-                Au {{ period.stop | date:'medium' }}
-            </div>
+    <div class="startStop">
+        <div class="start">
+            Du {{ period.start | date:'medium' }}
         </div>
-        <div class="duration">
-            <p *ngIf="!period.stop">{{ periodDurationText$ | async }}</p>
-            <p *ngIf="period.stop">{{ getDurationText() }}</p>
+        <div *ngIf="period.stop !== null" class="stop">
+            Au {{ period.stop | date:'medium' }}
+        </div>
+    </div>
+    <div class="duration">
+        <p *ngIf="!period.stop">{{ periodDurationText$ | async }}</p>
+        <p *ngIf="period.stop">{{ getDurationText() }}</p>
 
-        </div>
     </div>
 </div>

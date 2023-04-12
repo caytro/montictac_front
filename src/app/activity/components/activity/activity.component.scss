@@ -42,11 +42,11 @@ div.activity {
         margin-bottom:0.5em;
         button.startStop {
             width:75%;
-            background-color: green;
+            background-color: lightgreen;
             border-radius: 10px;
             flex-grow: 2;
             text-align: center;
-            color: white;
+            color: black;
             font-size: large;
             padding: 10px;
         }
@@ -54,12 +54,13 @@ div.activity {
     }
 
     &.running {
-        border-color: green;
+        border-color: lightgreen;
         box-shadow: 5px 5px 5px green;
         background-color: lightgreen;
 
         div.startStop button.startStop {
             background-color: red;
+            color:white;
         }
     }
     div.startedAt{

@@ -5,6 +5,7 @@ import { ActivityComponent } from "src/app/activity/components/activity/activity
 
 import { Activity } from "../models/activity.model";
 import { Period } from "../models/period.model";
+import { Action } from "rxjs/internal/scheduler/Action";
 
 @Injectable({
   providedIn: 'root'
@@ -48,7 +49,15 @@ export class MonTicTacService {
     return this.http.get<Activity>(url);
   }
 
-
+  createUpdateActivity(activity:Activity):Observable<Activity>{
+    const url = this.serverUrl + "/activity";
+    if (activity.id ===0){
+      return this.http.post<Activity>(url,{title:activity.title, description:activity.description});
+    }
+    else{
+      return this.http.put<Activity>(url + "/" + activity.id,{title:activity.title, description:activity.description})
+    }
+  }
 
   stopActivity(activity: Activity): Observable<Activity> {
     const url = this.serverUrl + '/activity/stop/' + activity.id;
@@ -94,6 +103,8 @@ export class MonTicTacService {
     return activityComponents;
 
   }
+
+  
 
   /*
    * Periodes

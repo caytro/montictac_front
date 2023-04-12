@@ -1,0 +1,12 @@
+div.menuBar{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    margin: 10px 15% 10px;
+    background-color: rgba(0,0,40, 0.2);
+    border-radius: 1em;
+    border: 2px inset grey;
+    font-size: larger;
+    padding: 0.5em 1em 0.5em;
+}

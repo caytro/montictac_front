@@ -1,0 +1,65 @@
+div.form {
+    background-color: lightblue;
+    padding: 1em;
+    width: 80%;
+    border-radius: 1em;
+    margin: 10%;
+    display: flex;
+    flex-direction: column;
+    div.header {
+        h1 {
+            margin-top:1em;
+            font-size: 2em;
+            font-weight: bold;
+            font-style: italic;
+        }
+    }
+
+    div.formGroup {
+        display: flex;
+        flex-direction: column;
+        
+
+        div.formComponent {
+            display: flex;
+            flex-direction: column;
+            margin: 1em 10% 1em;
+            align-items: flex-start;
+            .dateTime{
+                display: flex;
+                flex-direction: row;
+                justify-content: space-around;
+            }
+            label{
+                font-size: small;
+                color: #666;
+            }
+            input{
+                width: 100%;
+                font-size: large;
+                border-radius: 1em;
+                border: grey 2px inset;
+                padding: 0.2em 1em 0.2em;
+            }
+
+            &.validCancel{
+                display:flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-evenly;
+                button{
+                    border-radius: 1em;
+                    padding: 0.5em;
+                    font-size:large;
+                }
+                button.submit{
+                    background-color: lightgreen;                    
+                }
+                button.cancel{
+                    background-color: lightcoral;
+                }
+            }
+        }
+
+    }
+}

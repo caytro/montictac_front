@@ -1,5 +1,5 @@
 div.periodContainer {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(200, 200, 255, 0.1);
     margin: 1em;
     border-width: thick;
     border-radius: 1em;
@@ -14,65 +14,35 @@ div.periodContainer {
         align-items: center;
         padding: 0.5em 1em 0;
 
-        div.title {
-            flex-grow: 1;
+        div.titleText {
+            flex-grow: 2;
             font-weight: bold;
-
-            .formTitle {
-                display: flex;
-                padding-top: 10px;
-                justify-content: space-between;
-                align-items: center;
-
-                &.hidden {
-                    display: none;
-                }
-
-                mat-form-field {
-                    width: 90%;
-                }
-
-            }
-
-            .displayTitle {
-                display:flex;
-                flex-direction: row;
-                align-items: center;
-                div.titleText{
-                    flex-grow: 10;
-                }
-                div.buttonBox {
-                    display: flex;
-                    flex-direction: row;
-                    align-items: center;;
-
-                    button {
-                        background-color: rgba(0, 0, 0, 0.3);
-                        border-color: rgba(0, 0, 0, 0.3);
-                        border-radius: 0.5em;
-                        color: #ff8;
-                        margin: 0 0.1em 0;
-                        padding: 0.1em ;
-                    }
-                }
-                &.hidden{
-                    display:none;
-                }
-            }
+            font-style: italic;
         }
 
+        div.buttonBox {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-end;
+
+            button {
+                background-color: rgba(0, 0, 0, 0.3);
+                border-color: rgba(0, 0, 0, 0.3);
+                border-radius: 0.5em;
+                color: #ff8;
+                margin: 0 0.1em 0;
+                padding: 0.1em;
+            }
+        }
     }
-
-    div.periodContent {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-
-    }
-
-    .hidden {
-        display: none;
-    }
-
-    
 }
+
+
+
+div.periodContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+

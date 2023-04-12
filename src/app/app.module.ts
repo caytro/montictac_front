@@ -9,13 +9,17 @@ import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
 import { ActivityModule } from './activity/activity.module';
 import { AuthModule } from './auth/auth.module';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
+import { MenuBarComponent } from './core/components/menu/menu-bar/menu-bar.component';
+import { MenuItemComponent } from './core/components/menu/menu-item/menu-item.component';
+import { ActivityFormComponent } from './activity/components/activity-form/activity-form.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
+    MenuBarComponent,
+    MenuItemComponent,
+    ActivityFormComponent,
   ],
   imports: [
     BrowserModule,
@@ -23,11 +27,10 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
     HttpClientModule,
     CoreModule,
     ActivityModule,
-    AuthModule,
-    BrowserAnimationsModule
+    AuthModule
 ],
 providers : [
-  {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {floatLabel: 'always'}}
+  
 ],
   bootstrap: [AppComponent]
 })

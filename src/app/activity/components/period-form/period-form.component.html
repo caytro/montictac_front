@@ -1,0 +1,34 @@
+<div class="form">
+    <div class="header">
+        <h1>Modifier la période</h1>
+    </div>
+    <div class="formGroup">
+        <form [formGroup]="form" (submit)="onSubmitForm($event)">
+
+            <div class="formComponent">
+                <label for="title">Titre</label>
+                <input type="text" name="title" placeholder="Titre de la période" formControlName="title"
+                    [(ngModel)]="currentActivity.title">
+            </div>
+            <div class="formComponent">
+                <label>Du</label>
+                <div class="dateTime">
+                    <input type="date" name="periodStartDate">
+                    <input type="time" name="periodStartTime">
+                </div>
+            </div>
+            <div class="periodStart formComponent">
+                <label>Au</label>
+                <div class="dateTime">
+                    <input type="date" name="periodEndDate">
+                    <input type="time" name="periodEndTime">
+                </div>
+            </div>
+            <div class="formComponent validCancel">
+                <button type="submit" class="submit">Enregistrer</button>
+                <button (click)="onClickButtonCancel()" class="cancel">Annuler</button>
+            </div>
+
+        </form>
+    </div>
+</div>

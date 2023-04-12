@@ -13,13 +13,12 @@ import { ActivityListComponent } from '../activity-list/activity-list.component'
 })
 
 export class ActivityComponent implements OnInit {
-  onEditTitle($event: string) {
-    throw new Error('Method not implemented.');
-  }
+
+
   @Input() activity!: Activity;
   @Input() activityListComponent !: ActivityListComponent;
 
-  constructor(private tictacService: MonTicTacService) { }
+  constructor(private tictacService: MonTicTacService, private router: Router) { }
 
   buttonStartStopText!: string;
   periodListVisiblility: Boolean = false;
@@ -27,6 +26,7 @@ export class ActivityComponent implements OnInit {
   totalRunningPeriodTime$!: Observable<string>;
   totalRunningActivityTime$!: Observable<string>;
   buttonDeleteActivityImgUrl: string = "assets/images/fermer.png";
+  buttonEditActivityImgUrl: string = "assets/images/modifier.png";
 
   ngOnInit() {
     this.setButtonStartStopText();
@@ -112,6 +112,10 @@ export class ActivityComponent implements OnInit {
     console.log(this.activityListComponent);
   }
 
+  onclickEditActivity() {
+    this.router.navigateByUrl('updateActivity/' + this.activity.id);
+  }
+
   onClickDisplayHidePeriodList(): void {
     this.periodListVisiblility = !this.periodListVisiblility;
     this.setbuttonDisplayHidePeriodListText();
@@ -149,9 +153,9 @@ export class ActivityComponent implements OnInit {
   }
   // Period events
 
-  onEditPeriodTitle(editedTitle: {title:string, period: Period}) {
-    this.tictacService.updatePeriodTitle(editedTitle.period,editedTitle.title).pipe(
-      tap((updatedPeriod: Period) =>  {
+  onEditPeriodTitle(editedTitle: { title: string, period: Period }) {
+    this.tictacService.updatePeriodTitle(editedTitle.period, editedTitle.title).pipe(
+      tap((updatedPeriod: Period) => {
         let periodId = this.activity.periods.findIndex(period => period.id === editedTitle.period.id);
         this.activity.periods[periodId] = updatedPeriod;
       })

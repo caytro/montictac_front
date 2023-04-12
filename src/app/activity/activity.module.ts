@@ -6,31 +6,33 @@ import { RouterModule } from '@angular/router';
 import { PeriodComponent } from './components/period/period.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-//Material
+// Directives
+import { FocusDirective } from '../core/directives/focus.directive';
 
-import { MaterialModule } from '../core/material.module';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+
+import { PeriodFormComponent } from './components/period-form/period-form.component';
+
 
 
 @NgModule({
   declarations: [
     ActivityComponent,
     ActivityListComponent,
-    PeriodComponent
+    PeriodComponent,
+    FocusDirective,
+    PeriodFormComponent
   ],
   imports: [
     CommonModule,
     RouterModule,
     FormsModule,
-    MaterialModule,
-    BrowserAnimationsModule,
     ReactiveFormsModule
   ],
   exports:[
     ActivityComponent,
     ActivityListComponent,
     PeriodComponent,
-    BrowserAnimationsModule,
     ReactiveFormsModule
   ]
 })
