@@ -151,14 +151,5 @@ export class ActivityComponent implements OnInit {
 
 
   }
-  // Period events
-
-  onEditPeriodTitle(editedTitle: { title: string, period: Period }) {
-    this.tictacService.updatePeriodTitle(editedTitle.period, editedTitle.title).pipe(
-      tap((updatedPeriod: Period) => {
-        let periodId = this.activity.periods.findIndex(period => period.id === editedTitle.period.id);
-        this.activity.periods[periodId] = updatedPeriod;
-      })
-    ).subscribe();
-  }
+  
 }

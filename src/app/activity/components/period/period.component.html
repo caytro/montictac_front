@@ -1,5 +1,5 @@
 <div class="formPeriod" *ngIf="isVisiblePeriodForm">
-    <app-period-form></app-period-form>
+    <app-period-form [period] = period (cancelPeriodForm)="isVisiblePeriodForm = false" (submitPeriodForm)="onSubmitForm($event)"></app-period-form>
 </div>
 <div class="periodContainer" *ngIf="!isVisiblePeriodForm">
     <div class="header">
@@ -7,7 +7,7 @@
             {{ period.title ? (period.title ) : 'Période sans titre' }}
         </div>
         <div class="buttonBox">
-            <button class="edit" (click)="onClickButtonEditTitle()">
+            <button class="edit" (click)="onClickButtonEditPeriod()">
                 <img [src]="buttonEditImgUrl" alt="Editer">
             </button>
             <button class="delete" (click)="onClickButtonDelete()">

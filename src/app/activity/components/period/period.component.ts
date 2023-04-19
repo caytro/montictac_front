@@ -16,7 +16,7 @@ export class PeriodComponent implements OnInit {
   @Input() period !: Period;
   @Input() activityComponent !: ActivityComponent;
 
-  @Output() submitPeriodTitle = new EventEmitter<{title: string, period: Period}>();
+  //@Output() submitPeriodForm = new EventEmitter<{title: string, period: Period}>();
   
   
   buttonDeleteImgUrl: string = "assets/images/fermer.png";
@@ -47,14 +47,15 @@ export class PeriodComponent implements OnInit {
     ).subscribe();
   }
 
-  onClickButtonEditTitle(): void {
+  onClickButtonEditPeriod(): void {
     this.isVisiblePeriodForm = true;
       }
 
-  onSubmitTitleForm(): void {
-    if (this.titleCtrl.value) {
-      this.submitPeriodTitle.emit({title:this.titleCtrl.value,period: this.period});
-    }
+  onSubmitForm(updatedPeriod: Period): void {
+    console.log(updatedPeriod);
+    this.tictacService.updatePeriod(updatedPeriod).pipe(
+      tap((period) => this.period = period)
+    ).subscribe();
     this.isVisiblePeriodForm = false;
     
   }

@@ -6,6 +6,7 @@ import { ActivityComponent } from "src/app/activity/components/activity/activity
 import { Activity } from "../models/activity.model";
 import { Period } from "../models/period.model";
 import { Action } from "rxjs/internal/scheduler/Action";
+import { formatDate } from "@angular/common";
 
 @Injectable({
   providedIn: 'root'
@@ -114,10 +115,17 @@ export class MonTicTacService {
     const url = this.serverUrl + "/period/" + id;
     return this.http.get<Period>(url);
   }
-  updatePeriodTitle(period:Period, title: string): Observable<Period>{
-    const url = this.serverUrl + '/period/setTitle/' + period.id;
-    console.log(title);
-    return this.http.put<Period>(url, ({'title':  title}));
+  updatePeriod(period:Period): Observable<Period>{
+    const url = this.serverUrl + '/period/' + period.id;
+    console.log(period);
+    return this.http.put<Period>(url, ({'period':{
+      'title': period.title,
+      'start': formatDate(period.start,'yyyy-MM-dd','fr-FR') + " " + formatDate(period.start,'HH:mm:ss','fr-FR'),
+      'stop': formatDate(period.stop,'yyyy-MM-dd','fr-FR') + " " + formatDate(period.stop,'HH:mm:ss','fr-FR')
+    }  
+    
+  
+  }));
   }
 
   deletePeriod(period: Period): Observable<Object> {

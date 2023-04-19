@@ -5,7 +5,6 @@
             <p>{{ activity.description }}</p>
         </div>
         <div class="buttonBox">
-            
             <button class="editActivity" (click)="onclickEditActivity()">
                 <img [src]="buttonEditActivityImgUrl" alt="">
             </button>
@@ -33,9 +32,8 @@
                 </button>
             </div>
         </div>
-        <div class="periodList" [ngClass]="periodListVisiblility ? 'visible' : 'hidden'">
-            <app-period *ngFor="let period of activity.periods" [period]="period"
-                [activityComponent]="this" (submitPeriodTitle)="onEditPeriodTitle($event)"></app-period>
+        <div class="periodList" *ngIf="periodListVisiblility">
+            <app-period *ngFor="let period of activity.periods" [period]="period"></app-period>
         </div>
     </div>
 

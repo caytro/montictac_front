@@ -12,28 +12,30 @@ import { MonTicTacService } from 'src/app/core/services/montictac.service';
 })
 export class ActivityFormComponent implements OnInit {
   id=0;
-  title !: string;
-  description !: string;
   form !: FormGroup;
   update : boolean = false;
-  currentActivity !: Activity;
+  currentActivity !: Activity ;
 
   constructor(private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute, private ticTacService: MonTicTacService) { }
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
-      title: [null],
-      description: [null]
+      formTitle: [null],
+      formDescription: [null]
     })
     const id = Number(this.route.snapshot.paramMap.get('id'));
     if (id){
       this.update = true;
       this.ticTacService.getActivityById(id).pipe(
-        tap((activity) => this.currentActivity = activity)
+        tap((activity) => {
+          this.currentActivity = activity;
+          this.form.setValue({formTitle:this.currentActivity.title, formDescription:this.currentActivity.description}) ;
+        })
       ).subscribe();
     }
     else {
       this.currentActivity = new Activity(0,'','',[]);
+
     }
     
   }
@@ -44,8 +46,8 @@ export class ActivityFormComponent implements OnInit {
 
   onSubmitForm(event: Event) {
     console.log(this.form.value);
-    this.currentActivity.title = this.form.value.title;
-    this.currentActivity.description = this.form.value.description;
+    this.currentActivity.title = this.form.value.formTitleitle;
+    this.currentActivity.description = this.form.value.formDescription;
     this.ticTacService.createUpdateActivity(this.currentActivity).pipe(
       tap(()=>this.router.navigateByUrl(''))
     ).subscribe();

@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Time, formatDate } from '@angular/common';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { tap } from 'rxjs';
 import { Activity } from 'src/app/core/models/activity.model';
+import { Period } from 'src/app/core/models/period.model';
+import { DateTimeService } from 'src/app/core/services/date-time.service';
 import { MonTicTacService } from 'src/app/core/services/montictac.service';
 
 @Component({
@@ -10,45 +13,64 @@ import { MonTicTacService } from 'src/app/core/services/montictac.service';
   templateUrl: './period-form.component.html',
   styleUrls: ['./period-form.component.scss']
 })
-export class PeriodFormComponent implements OnInit {
-  id=0;
-  title !: string;
-  description !: string;
-  form !: FormGroup;
-  update : boolean = false;
-  currentActivity !: Activity;
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute, private ticTacService: MonTicTacService) { }
+
+export class PeriodFormComponent implements OnInit {
+
+  @Input() period !: Period;
+  @Output() submitPeriodForm = new EventEmitter<Period>();
+  @Output() cancelPeriodForm = new EventEmitter<{}>();
+
+
+  form !: FormGroup;
+  update: boolean = false;
+  currentPeriod !: Period;
+
+  constructor(private formBuilder: FormBuilder,
+    private router: Router,
+    private route: ActivatedRoute, 
+    private ticTacService: MonTicTacService,
+    private dateTimeService: DateTimeService) { }
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
-      title: [null],
-      description: [null]
+      formTitle: [null],
+      formStartDate: [null],
+      formStartTime: [null],
+      formEndDate: [null],
+      formEndTime: [null],
     })
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    if (id){
+    if (this.period) {
       this.update = true;
-      this.ticTacService.getActivityById(id).pipe(
-        tap((activity) => this.currentActivity = activity)
-      ).subscribe();
+      this.currentPeriod = this.period;
     }
     else {
-      this.currentActivity = new Activity(0,'','',[]);
+      this.currentPeriod = new Period(0, new Date(), new Date(), 'Période sans titre');
     }
-    
+    console.log(this.currentPeriod);
+    this.form.setValue({
+      formTitle: this.currentPeriod.title,
+      formStartDate: formatDate(this.currentPeriod.start,'yyyy-MM-dd','fr-FR'),
+      formStartTime: formatDate(this.currentPeriod.start,'HH:mm:ss','fr-FR'),
+      formEndDate: formatDate(this.currentPeriod.stop,'yyyy-MM-dd','fr-FR'),
+      formEndTime: formatDate(this.currentPeriod.stop,'HH:mm:ss','fr-FR'),
+    });
+    console.log(this.form.value);
+    //console.log(this.currentPeriod.start.getHours() + ":" + this.currentPeriod.start.getMinutes());
+
   }
 
   onClickButtonCancel() {
-    this.router.navigateByUrl("");
+    this.cancelPeriodForm.emit();
   }
 
-  onSubmitForm(event: Event) {
-    console.log(this.form.value);
-    this.currentActivity.title = this.form.value.title;
-    this.currentActivity.description = this.form.value.description;
-    this.ticTacService.createUpdateActivity(this.currentActivity).pipe(
-      tap(()=>this.router.navigateByUrl(''))
-    ).subscribe();
+  onSubmitForm() {
+    let updatedPeriod = new Period(this.period.id, 
+      new Date(String(this.form.value.formStartDate) + " " + String(this.form.value.formStartTime)),
+      new Date(String(this.form.value.formEndDate) + " " + String(this.form.value.formEndTime)),
+      this.form.value.formTitle);
+    console.log(updatedPeriod);
+    this.submitPeriodForm.emit(updatedPeriod);
   }
 
 }
