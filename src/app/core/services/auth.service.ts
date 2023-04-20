@@ -1,10 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import * as moment from 'moment';
-import { Observable, switchMap, tap } from 'rxjs';
 import { Token } from '../models/token.model';
 import { User } from '../models/user.model';
+import { tap } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
@@ -21,7 +20,7 @@ export class AuthService {
   login(email: string, password: string) : void{
     this.http.post<Token>('http://localhost:8000/api/login_check', new User(email,password)).pipe(
       tap(token => this.setSession(token)),
-      tap(token => this.router.navigateByUrl('')))
+      tap(() => this.router.navigateByUrl('')))
       .subscribe();
   }
 

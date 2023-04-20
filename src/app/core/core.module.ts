@@ -3,12 +3,14 @@ import { CommonModule, registerLocaleData } from '@angular/common';
 import { httpInterceptorProviders } from './interceptors';
 import * as fr from '@angular/common/locales/fr';
 import { HeaderComponent } from './header/header.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 
 
 
 @NgModule({
   declarations: [
-    HeaderComponent
+    HeaderComponent,
+    NotFoundComponent
   ],
   imports: [
     CommonModule,

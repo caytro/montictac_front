@@ -28,7 +28,7 @@ export class MenuBarComponent implements OnInit {
     }));
     this.menuItemParams.push(new MenuItemParam({
       caption : 'Stats',
-      action : '',
+      action : 'onClick()',
       url : '',
       target: ''
     }));

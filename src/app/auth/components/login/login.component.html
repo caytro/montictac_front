@@ -1,16 +1,18 @@
 <div class="card">
     <h1>Connexion</h1>
          <form #loginForm="ngForm" (ngSubmit)="onSubmitLoginForm(loginForm)" >
-            <div class="form-group">
-                <label for="username" >Email </label>
-                <input type="email" name="username" id="username" [(ngModel)]="userName">
-            </div>
-            <div class="form-group">
-                <label for="password">Mot de passe </label>
-                <input type="password" name="password" id="password" [(ngModel)]="password">
-            </div>
-            <div class="form-group">
-                <button type="submit">Connexion</button>
+            <div class="form">
+                <div class="form-group username">
+                    <label for="username" >Email </label>
+                    <input type="email" name="username" id="username" [(ngModel)]="userName">
+                </div>
+                <div class="form-group password">
+                    <label for="password">Mot de passe </label>
+                    <input type="password" name="password" id="password" [(ngModel)]="password">
+                </div>
+                <div class="submit">
+                    <button type="submit">Connexion</button>
+                </div>
             </div>
         </form>
 </div>

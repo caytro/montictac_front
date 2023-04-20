@@ -1,6 +1,6 @@
 <div class="menuItem">
-    <a [href] = menuItemParam.url [target]=menuItemParam.target [ngClass]="mouseDown ? 'mouseDown' : '' " (mousedown)="onMouseDown()"
-        (mouseup)="onMouseUp()" (mouseout)="onMouseOut()" >
+    <a [href]= "getUrl()" [target]=menuItemParam.target [ngClass]="mouseDown ? 'mouseDown' : '' " (mousedown)="onMouseDown()"
+        (mouseup)="onMouseUp()" (mouseout)="onMouseOut()" (click)="onClick()">
         {{ menuItemParam.caption | titlecase }}
     </a>
 </div>
