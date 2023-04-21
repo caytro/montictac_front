@@ -18,8 +18,8 @@ import { MonTicTacService } from 'src/app/core/services/montictac.service';
 export class PeriodFormComponent implements OnInit {
 
   @Input() period !: Period;
-  @Output() submitPeriodForm = new EventEmitter<Period>();
-  @Output() cancelPeriodForm = new EventEmitter<{}>();
+  @Output() submitPeriodFormEvent = new EventEmitter<{ updatedPeriod: Period, isRunning: boolean }>();
+  @Output() cancelPeriodFormEvent = new EventEmitter<{}>();
 
 
   form !: FormGroup;
@@ -28,7 +28,7 @@ export class PeriodFormComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
     private router: Router,
-    private route: ActivatedRoute, 
+    private route: ActivatedRoute,
     private ticTacService: MonTicTacService,
     private dateTimeService: DateTimeService) { }
 
@@ -40,20 +40,18 @@ export class PeriodFormComponent implements OnInit {
       formEndDate: [null],
       formEndTime: [null],
     })
-    if (this.period) {
+    if (this.period.id > 0) {
       this.update = true;
-      this.currentPeriod = this.period;
     }
-    else {
-      this.currentPeriod = new Period(0, new Date(), new Date(), 'Période sans titre');
-    }
+    this.currentPeriod = this.period;
+
     console.log(this.currentPeriod);
     this.form.setValue({
       formTitle: this.currentPeriod.title,
-      formStartDate: formatDate(this.currentPeriod.start,'yyyy-MM-dd','fr-FR'),
-      formStartTime: formatDate(this.currentPeriod.start,'HH:mm:ss','fr-FR'),
-      formEndDate: formatDate(this.currentPeriod.stop,'yyyy-MM-dd','fr-FR'),
-      formEndTime: formatDate(this.currentPeriod.stop,'HH:mm:ss','fr-FR'),
+      formStartDate: formatDate(this.currentPeriod.start, 'yyyy-MM-dd', 'fr-FR'),
+      formStartTime: formatDate(this.currentPeriod.start, 'HH:mm:ss', 'fr-FR'),
+      formEndDate: formatDate(this.currentPeriod.stop, 'yyyy-MM-dd', 'fr-FR'),
+      formEndTime: formatDate(this.currentPeriod.stop, 'HH:mm:ss', 'fr-FR'),
     });
     console.log(this.form.value);
     //console.log(this.currentPeriod.start.getHours() + ":" + this.currentPeriod.start.getMinutes());
@@ -61,16 +59,16 @@ export class PeriodFormComponent implements OnInit {
   }
 
   onClickButtonCancel() {
-    this.cancelPeriodForm.emit();
+    this.cancelPeriodFormEvent.emit();
   }
 
   onSubmitForm() {
-    let updatedPeriod = new Period(this.period.id, 
+    let updatedPeriod = new Period(this.period.id,
       new Date(String(this.form.value.formStartDate) + " " + String(this.form.value.formStartTime)),
       new Date(String(this.form.value.formEndDate) + " " + String(this.form.value.formEndTime)),
       this.form.value.formTitle);
     console.log(updatedPeriod);
-    this.submitPeriodForm.emit(updatedPeriod);
+    this.submitPeriodFormEvent.emit({ 'updatedPeriod': updatedPeriod, 'isRunning': !!this.currentPeriod.stop });
   }
 
 }

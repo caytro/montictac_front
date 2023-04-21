@@ -1,5 +1,5 @@
 <div class="formPeriod" *ngIf="isVisiblePeriodForm">
-    <app-period-form [period] = period (cancelPeriodForm)="isVisiblePeriodForm = false" (submitPeriodForm)="onSubmitForm($event)"></app-period-form>
+    <app-period-form [period] = period (cancelPeriodFormEvent)="isVisiblePeriodForm = false" (submitPeriodFormEvent)="onSubmitForm($event)"></app-period-form>
 </div>
 <div class="periodContainer" *ngIf="!isVisiblePeriodForm">
     <div class="header">

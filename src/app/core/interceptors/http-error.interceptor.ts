@@ -29,8 +29,12 @@ export class HttpErrorInterceptor implements HttpInterceptor {
 
         }
         else {
-            this.router.navigateByUrl('notFound');
+            this.router.navigateByUrl('errorPage',{state:{'status':error.status, 'statusText': error.statusText, 'message': error.error.message }});
         }
-        return throwError(() => new Error('Something bad happened; please try again later.'));
+        return throwError(() => new Error('Something bad happened; please try again later.' + " " + this.errorToString(error)));
+    }
+
+    errorToString(error : {'status': number, 'statusText': string, 'message': string}): string{
+        return (error.status.toString + " " + error.statusText + " " + error.message);
     }
 }

@@ -5,10 +5,13 @@
             <p>{{ activity.description }}</p>
         </div>
         <div class="buttonBox">
-            <button class="editActivity" (click)="onclickEditActivity()">
+            <button class="createPeriod" (click)="onClickCreatePeriod()" title="Ajouter une période">
+                <img [src]="buttonCreatePeriodImgUrl" alt="">
+            </button>
+            <button class="editActivity" (click)="onClickEditActivity()" title="Modifier activité">
                 <img [src]="buttonEditActivityImgUrl" alt="">
             </button>
-            <button class="deleteActivity" (click)="onClickShowHideActivity()">
+            <button class="deleteActivity" (click)="onClickDeleteActivity()" title="Supprimer activité">
                 <img [src]="buttonDeleteActivityImgUrl" alt="">
             </button>
         </div>
@@ -22,18 +25,22 @@
         <p>Démarré le {{ activity.periods[0].start | date:'medium' }}</p>
         <p>{{ totalRunningPeriodTime$ | async }}</p>
     </div>
+    <app-period-form *ngIf="showNewPeriodForm" [period]="newPeriod" (cancelPeriodFormEvent)="onCancelNewPeriodForm()"
+        (submitPeriodFormEvent)="onSubmitNewPeriodForm($event)">
+    </app-period-form>
     <div class="periods">
         <div class="periodsHeader">
             <div *ngIf="isRunning()" class="totalTime">Total {{ totalRunningActivityTime$ | async }}</div>
             <div *ngIf="!isRunning()" class="totalTime">Total {{ getTotalTimeToString() }} </div>
             <div class="buttonBox">
                 <button (click)="onClickDisplayHidePeriodList()">
-                    <span>{{ buttonDisplayHidePeriodListText }}</span>
+                    <span>{{ periodListVisiblility ? "Masquer" : "Voir" }}</span>
                 </button>
             </div>
         </div>
         <div class="periodList" *ngIf="periodListVisiblility">
-            <app-period *ngFor="let period of activity.periods" [period]="period"></app-period>
+            <app-period-list [activity]="activity" (deletePeriodEvent)="onDeletePeriod($event)"
+                (updatePeriodEvent)="onSubmitEditPeriodForm($event)"></app-period-list>
         </div>
     </div>
 

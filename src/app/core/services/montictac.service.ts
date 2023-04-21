@@ -50,13 +50,13 @@ export class MonTicTacService {
     return this.http.get<Activity>(url);
   }
 
-  createUpdateActivity(activity:Activity):Observable<Activity>{
+  createUpdateActivity(activity: Activity): Observable<Activity> {
     const url = this.serverUrl + "/activity";
-    if (activity.id ===0){
-      return this.http.post<Activity>(url,{title:activity.title, description:activity.description});
+    if (activity.id === 0) {
+      return this.http.post<Activity>(url, { title: activity.title, description: activity.description });
     }
-    else{
-      return this.http.put<Activity>(url + "/" + activity.id,{title:activity.title, description:activity.description})
+    else {
+      return this.http.put<Activity>(url + "/" + activity.id, { title: activity.title, description: activity.description })
     }
   }
 
@@ -68,6 +68,11 @@ export class MonTicTacService {
   startActivity(activity: Activity): Observable<Activity> {
     const url = this.serverUrl + '/activity/start/' + activity.id;
     return this.http.get<Activity>(url);
+  }
+
+  deleteActivity(activity: Activity): Observable<Object> {
+    const url = this.serverUrl + '/activity/' + activity.id;
+    return this.http.delete(url);
   }
 
   sortActivityPeriods(activity: Activity, direction: string): Activity {
@@ -105,27 +110,38 @@ export class MonTicTacService {
 
   }
 
-  
+
 
   /*
    * Periodes
    */
 
-  getPeriodById(id: number): Observable<Period>{
+  getPeriodById(id: number): Observable<Period> {
     const url = this.serverUrl + "/period/" + id;
     return this.http.get<Period>(url);
   }
-  updatePeriod(period:Period): Observable<Period>{
+  updatePeriod(period: Period, isRunning: boolean): Observable<Period> {
     const url = this.serverUrl + '/period/' + period.id;
     console.log(period);
-    return this.http.put<Period>(url, ({'period':{
+    const param = {
       'title': period.title,
-      'start': formatDate(period.start,'yyyy-MM-dd','fr-FR') + " " + formatDate(period.start,'HH:mm:ss','fr-FR'),
-      'stop': formatDate(period.stop,'yyyy-MM-dd','fr-FR') + " " + formatDate(period.stop,'HH:mm:ss','fr-FR')
-    }  
-    
-  
-  }));
+      'start': formatDate(period.start, 'yyyy-MM-dd', 'fr-FR') + " " + formatDate(period.start, 'HH:mm:ss', 'fr-FR'),
+      'stop': isRunning ? formatDate(period.stop, 'yyyy-MM-dd', 'fr-FR') + " " + formatDate(period.stop, 'HH:mm:ss', 'fr-FR') : null
+    };
+    return this.http.put<Period>(url, { 'period': param });
+  }
+
+  createPeriod(period: Period, activity: Activity): Observable<Period> {
+    const url = this.serverUrl + '/period';
+    const params = {
+      'activity_id': activity.id,
+      'period': {
+        'title': period.title,
+        'start': formatDate(period.start, 'yyyy-MM-dd', 'fr-FR') + " " + formatDate(period.start, 'HH:mm:ss', 'fr-FR'),
+        'stop': formatDate(period.stop, 'yyyy-MM-dd', 'fr-FR') + " " + formatDate(period.stop, 'HH:mm:ss', 'fr-FR')
+      }
+    }
+    return this.http.post<Period>(url, params);
   }
 
   deletePeriod(period: Period): Observable<Object> {

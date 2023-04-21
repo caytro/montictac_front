@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { Activity } from 'src/app/core/models/activity.model';
 import { MonTicTacService } from 'src/app/core/services/montictac.service';
 import { ActivityComponent } from '../activity/activity.component';
@@ -10,22 +10,44 @@ import { ActivityComponent } from '../activity/activity.component';
   templateUrl: './activity-list.component.html',
   styleUrls: ['./activity-list.component.scss']
 })
-export class ActivityListComponent implements OnInit{
+export class ActivityListComponent implements OnInit {
 
-  activities$!: Observable<Activity[]>;
-  activityComponents : ActivityComponent[] = [];
-  
-  
-  constructor( private tictacService: MonTicTacService){
+  activities!: Activity[];
+  visiblePeriodListActivityIds !: boolean[];
+  constructor(private tictacService: MonTicTacService) { }
+
+  ngOnInit() {
+    this.updateActivities();
 
   }
 
-  ngOnInit(){
-    this.activities$ = this.updateActivities();    
+  updateActivities(): void {
+    this.tictacService.getAllActivitiesOrderByLastStart().pipe(
+      tap((activities) => this.activities = activities)
+      
+    )
+      .subscribe();
   }
 
-  updateActivities():Observable<Activity[]>{
-    return this.activities$ = this.tictacService.getAllActivitiesOrderByLastStart();
+  onStartStopEvent(): void {
+    this.updateActivities();
   }
-  
+  onModifyActivityEvent(): void {
+    
+    this.updateActivities();
+   
+  }
+  onModifyPeriodListVisibilityEvent(event: { 'activityId': number, 'visible': boolean }) {
+    this.visiblePeriodListActivityIds[event.activityId] = event.visible;
+  }
+
+  getInitialPeriodListVisibility(activity: Activity): boolean {
+    if (this.visiblePeriodListActivityIds){
+      return this.visiblePeriodListActivityIds[activity.id] ?? false;
+    }
+    else{
+      return false;
+    }
+    
+  }
 }

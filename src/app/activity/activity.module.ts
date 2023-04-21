@@ -12,6 +12,7 @@ import { FocusDirective } from '../core/directives/focus.directive';
 
 
 import { PeriodFormComponent } from './components/period-form/period-form.component';
+import { PeriodListComponent } from './components/period-list/period-list.component';
 
 
 
@@ -21,7 +22,8 @@ import { PeriodFormComponent } from './components/period-form/period-form.compon
     ActivityListComponent,
     PeriodComponent,
     FocusDirective,
-    PeriodFormComponent
+    PeriodFormComponent,
+    PeriodListComponent
   ],
   imports: [
     CommonModule,

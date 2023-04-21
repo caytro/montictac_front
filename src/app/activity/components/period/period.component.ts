@@ -15,20 +15,20 @@ export class PeriodComponent implements OnInit {
 
   @Input() period !: Period;
   @Input() activityComponent !: ActivityComponent;
+  @Output() deletePeriodEvent = new EventEmitter<Period>();
+  @Output() submitPeriodFormEvent = new EventEmitter<{'updatedPeriod':Period, 'isRunning': boolean}>();
 
-  //@Output() submitPeriodForm = new EventEmitter<{title: string, period: Period}>();
-  
-  
+
   buttonDeleteImgUrl: string = "assets/images/fermer.png";
   buttonEditImgUrl: string = "assets/images/modifier.png";
   titleText!: string
   isVisiblePeriodForm!: boolean;
   titleCtrl !: FormControl;
-  titlePlaceHolder : string = 'Période Sans Nom';
+  titlePlaceHolder: string = 'Période Sans Nom';
 
   periodDurationText$!: Observable<string>
 
-  constructor(private tictacService: MonTicTacService, private formBuilder: FormBuilder) {  }
+  constructor(private tictacService: MonTicTacService, private formBuilder: FormBuilder) { }
 
 
   ngOnInit() {
@@ -39,28 +39,25 @@ export class PeriodComponent implements OnInit {
     this.isVisiblePeriodForm = false;
     this.titleCtrl = this.formBuilder.control((this.period.title ? this.period.title : ''));
   }
-  
+
   onClickButtonDelete(): void {
-    this.tictacService.deletePeriod(this.period).pipe(
-      tap(() => this.activityComponent.reloadActivity()),
-      tap(() => this.activityComponent.periodListVisiblility = true)
-    ).subscribe();
+    this.deletePeriodEvent.emit(this.period);
+
   }
 
   onClickButtonEditPeriod(): void {
     this.isVisiblePeriodForm = true;
-      }
-
-  onSubmitForm(updatedPeriod: Period): void {
-    console.log(updatedPeriod);
-    this.tictacService.updatePeriod(updatedPeriod).pipe(
-      tap((period) => this.period = period)
-    ).subscribe();
-    this.isVisiblePeriodForm = false;
-    
   }
 
- 
+  onSubmitForm(event:{'updatedPeriod': Period, 'isRunning':boolean}): void {
+    console.log(event);
+    this.submitPeriodFormEvent.emit(event);
+
+    this.isVisiblePeriodForm = false;
+
+  }
+
+
 
   getDurationText() {
     return this.tictacService.convertSecondsToString(this.tictacService.getPeriodDurationSeconds(this.period));

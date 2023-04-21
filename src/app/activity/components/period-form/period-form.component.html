@@ -1,6 +1,6 @@
 <div class="form">
     <div class="header">
-        <h1>Modifier la période</h1>
+        <h1>{{ update ? "Modifier la période" : "Nouvelle Période" }}</h1>
     </div>
     <div class="formGroup">
         <form [formGroup]="form" (submit)="onSubmitForm()">
@@ -16,7 +16,7 @@
                     <input type="time" name="periodStartTime" formControlName="formStartTime" >
                 </div>
             </div>
-            <div class="periodStart formComponent" *ngIf="update && currentPeriod.stop">
+            <div class="periodStart formComponent" *ngIf="currentPeriod.stop">
                 <label>Fin</label>
                 <div class="dateTime">
                     <input type="date" name="periodEndDate" formControlName="formEndDate"  >

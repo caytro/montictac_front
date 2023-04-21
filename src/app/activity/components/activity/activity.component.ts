@@ -1,6 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { interval, map, Observable, tap, timer } from 'rxjs';
+import { concatMap, interval, map, Observable, switchMap, tap, timer } from 'rxjs';
 import { Period } from 'src/app/core/models/period.model';
 import { MonTicTacService } from 'src/app/core/services/montictac.service';
 import { Activity } from '../../../core/models/activity.model';
@@ -15,22 +15,33 @@ import { ActivityListComponent } from '../activity-list/activity-list.component'
 export class ActivityComponent implements OnInit {
 
 
+
+
   @Input() activity!: Activity;
-  @Input() activityListComponent !: ActivityListComponent;
+  @Input() initialPeriodListVisibility !: boolean;
+  @Output() startStopEvent = new EventEmitter();
+  @Output() modifyActivityEvent = new EventEmitter();
+  @Output() modififyPeriodListVisibility = new EventEmitter<{'activityId': number, 'visible':boolean}>();
 
   constructor(private tictacService: MonTicTacService, private router: Router) { }
 
   buttonStartStopText!: string;
-  periodListVisiblility: Boolean = false;
-  buttonDisplayHidePeriodListText!: string;
+  periodListVisiblility!: boolean;
+  showNewPeriodForm: Boolean = false;
+
+  
+  newPeriod !: Period;
+
   totalRunningPeriodTime$!: Observable<string>;
   totalRunningActivityTime$!: Observable<string>;
+
+  buttonCreatePeriodImgUrl: string = "assets/images/ajouter.png";
   buttonDeleteActivityImgUrl: string = "assets/images/fermer.png";
   buttonEditActivityImgUrl: string = "assets/images/modifier.png";
 
   ngOnInit() {
     this.setButtonStartStopText();
-    this.setbuttonDisplayHidePeriodListText();
+    this.periodListVisiblility = this.initialPeriodListVisibility;
     if (this.isRunning()) {
       this.totalRunningActivityTime$ = timer(0, 10000).pipe(
         map(() => this.getTotalTimeToString())
@@ -39,7 +50,6 @@ export class ActivityComponent implements OnInit {
         map(() => this.getPeriodTimeToString(this.activity.periods[0]))
       );
     }
-    this.activityListComponent.activityComponents.push(this);
 
   }
 
@@ -47,13 +57,10 @@ export class ActivityComponent implements OnInit {
     this.buttonStartStopText = this.isRunning() ? "Stop" : "Start";
   }
 
-  setbuttonDisplayHidePeriodListText() {
-    this.buttonDisplayHidePeriodListText = this.periodListVisiblility ? "Masquer" : "Voir";
-  }
+  
 
   refreshDisplay(): void {
     this.setButtonStartStopText();
-    this.setbuttonDisplayHidePeriodListText();
     if (this.isRunning()) {
       this.totalRunningActivityTime$ = timer(0, 10000).pipe(
         map(() => this.getTotalTimeToString())
@@ -107,49 +114,70 @@ export class ActivityComponent implements OnInit {
   }
 
 
-  onClickShowHideActivity(): void {
-    this.activityListComponent.ngOnInit();
-    console.log(this.activityListComponent);
+  onClickEditActivity() {
+    this.router.navigateByUrl('updateActivity/' + this.activity.id);
   }
 
-  onclickEditActivity() {
-    this.router.navigateByUrl('updateActivity/' + this.activity.id);
+  onClickDeleteActivity() {
+    this.tictacService.deleteActivity(this.activity).pipe(
+      tap(() => this.modifyActivityEvent.emit())
+    ).subscribe();
   }
 
   onClickDisplayHidePeriodList(): void {
     this.periodListVisiblility = !this.periodListVisiblility;
-    this.setbuttonDisplayHidePeriodListText();
+    this.modififyPeriodListVisibility.emit({'activityId': this.activity.id, 'visible': this.periodListVisiblility})
   }
 
 
   onClickActivityStartStopButton(): void {
     if (this.isRunning()) {
       this.tictacService.stopActivity(this.activity).pipe(
-        tap(() => this.setButtonStartStopText()),
-        tap(() => {
-          for (let activityComponent of this.activityListComponent.activityComponents) {
-            activityComponent.reloadActivity();
-          }
-        }),
+        tap(() => this.startStopEvent.emit()),
         tap(() => this.refreshDisplay())
       ).subscribe();
     }
     else {
       this.tictacService.startActivity(this.activity).pipe(
         tap((activity) => this.activity = activity),
-        tap(() => this.setButtonStartStopText()),
-        tap(() => {
-          for (let activityComponent of this.activityListComponent.activityComponents) {
-            activityComponent.reloadActivity();
-          }
-        }),
-        tap(() => this.activityListComponent.updateActivities())
-        //tap(() => this.refreshDisplay())
+        tap(() => this.startStopEvent.emit()),
+        tap(() => this.refreshDisplay())
       ).subscribe();
 
     }
+  }
 
+  onClickCreatePeriod() {
+    this.newPeriod = new Period(0, new Date(), new Date(), null);
+    this.showNewPeriodForm = true;
+  }
+
+  onSubmitNewPeriodForm(event: { 'updatedPeriod': Period, 'isRunning': boolean }) {
+    this.tictacService.createPeriod(event.updatedPeriod, this.activity).pipe(
+      tap(() => this.reloadActivity())
+    ).subscribe();
+    
+  }
+  onCancelNewPeriodForm() {
+    this.showNewPeriodForm = false;
+  }
+
+  onSubmitEditPeriodForm(event: { 'updatedPeriod': Period, 'isRunning': boolean }): void {
+    console.log(event.updatedPeriod);
+    this.tictacService.updatePeriod(event.updatedPeriod, event.isRunning).pipe(
+      concatMap(() => this.tictacService.getActivityById(this.activity.id).pipe(
+        tap((activity) => this.tictacService.sortActivityPeriods(activity, 'desc')),
+        tap((activity) => this.activity = activity),
+        tap(() => this.refreshDisplay()),
+        tap(() => this.modifyActivityEvent.emit())
+      ))).subscribe();
+  }
+
+  onDeletePeriod(event: Period): void {
+    this.tictacService.deletePeriod(event).pipe(
+      tap(() => this.modifyActivityEvent.emit()),
+        
+      ).subscribe();
 
   }
-  
 }

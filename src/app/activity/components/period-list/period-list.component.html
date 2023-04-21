@@ -1,0 +1,1 @@
+<app-period *ngFor="let period of activity.periods" [period]="period" (deletePeriodEvent)="onDeletePeriod($event)" (submitPeriodFormEvent)="onSubmitEditPeriod($event)"></app-period>

@@ -1,1 +1,4 @@
-<app-activity *ngFor="let activity of activities$ | async " [activity]="activity" [activityListComponent] = "this"></app-activity>
+<app-activity *ngFor="let activity of activities" [activity]="activity"
+    [initialPeriodListVisibility]="getInitialPeriodListVisibility(activity)" (startStopEvent)="onStartStopEvent()"
+    (modifyActivityEvent)="onModifyActivityEvent()">
+</app-activity>

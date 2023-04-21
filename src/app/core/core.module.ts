@@ -4,13 +4,15 @@ import { httpInterceptorProviders } from './interceptors';
 import * as fr from '@angular/common/locales/fr';
 import { HeaderComponent } from './header/header.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { ErrorPageComponent } from './components/error-page/error-page.component';
 
 
 
 @NgModule({
   declarations: [
     HeaderComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    ErrorPageComponent
   ],
   imports: [
     CommonModule,

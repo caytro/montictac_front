@@ -46,7 +46,7 @@ export class ActivityFormComponent implements OnInit {
 
   onSubmitForm(event: Event) {
     console.log(this.form.value);
-    this.currentActivity.title = this.form.value.formTitleitle;
+    this.currentActivity.title = this.form.value.formTitle;
     this.currentActivity.description = this.form.value.formDescription;
     this.ticTacService.createUpdateActivity(this.currentActivity).pipe(
       tap(()=>this.router.navigateByUrl(''))
