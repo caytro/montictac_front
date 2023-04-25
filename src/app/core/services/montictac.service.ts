@@ -76,7 +76,7 @@ export class MonTicTacService {
   }
 
   sortActivityPeriods(activity: Activity, direction: string): Activity {
-    console.log(activity);
+    //console.log(activity);
     activity.periods = activity.periods.sort((a, b) => (direction === "asc" ? -1 : 1) * (new Date(b.start).getTime() - new Date(a.start).getTime()));
     return activity;
   }
@@ -122,7 +122,7 @@ export class MonTicTacService {
   }
   updatePeriod(period: Period, isRunning: boolean): Observable<Period> {
     const url = this.serverUrl + '/period/' + period.id;
-    console.log(period);
+    //console.log(period);
     const param = {
       'title': period.title,
       'start': formatDate(period.start, 'yyyy-MM-dd', 'fr-FR') + " " + formatDate(period.start, 'HH:mm:ss', 'fr-FR'),

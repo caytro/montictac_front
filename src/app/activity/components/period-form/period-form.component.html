@@ -25,7 +25,7 @@
             </div>
             <div class="formComponent validCancel" >
                 <button type="submit" class="submit">Enregistrer</button>
-                <button (click)="onClickButtonCancel()" class="cancel">Annuler</button>
+                <button (click)="onClickButtonCancel()" class="cancel">{{ update ? "Annuler" : "Fermer" }} </button>
             </div>
 
         </form>

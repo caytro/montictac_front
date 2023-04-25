@@ -7,7 +7,8 @@ import { Activity } from './core/models/activity.model';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit{
-  activity!: Activity;
+  
+  
 
   ngOnInit(){
  

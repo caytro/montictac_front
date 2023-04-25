@@ -11,7 +11,7 @@ body {
 body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
-    background-color: #EEE;
+    background-color: #f0eba8;
 }
 
 div.card {
@@ -21,7 +21,7 @@ div.card {
     border-style: ridge;
     border-radius: 10px;
     box-shadow: 5px 5px 3px darkgray;
-    background-color: lightgray;
+    background-color: rgba(0,0,0,0.1);
     text-align: center;
     margin-left: 25%;
     margin-top: 7px;

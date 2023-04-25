@@ -1,0 +1,14 @@
+<div class="messageBox">
+    <div class="wrapper">
+        <h1>
+            {{ msgBoxParams.title }}
+        </h1>
+        <div class="message">
+            {{ msgBoxParams.message }}
+        </div>
+        <div class="buttonBox">
+            <button (click)="onClickOkButton()">OK</button>
+            <button (click)="onClickCancelButton()">Annuler</button>
+        </div>
+    </div>
+</div>

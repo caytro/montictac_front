@@ -7,6 +7,7 @@ import { ActivityFormComponent } from "./activity/components/activity-form/activ
 import { LoginComponent } from "./auth/components/login/login.component";
 import { NotFoundComponent } from "./core/components/not-found/not-found.component";
 import { ErrorPageComponent } from "./core/components/error-page/error-page.component";
+import { TestComponent } from "./core/components/test/test.component";
 
 
 const routes: Routes =[
@@ -15,6 +16,7 @@ const routes: Routes =[
     {path: 'updateActivity/:id', component: ActivityFormComponent, canActivate: [AuthGuard] },
     {path: 'auth/login', component: LoginComponent},
     {path: 'errorPage', component: ErrorPageComponent},
+    {path: 'test', component: TestComponent},
     {path: '**', component: NotFoundComponent,data:{'url':'toto'}}
    
  ]

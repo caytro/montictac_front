@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { Activity } from 'src/app/core/models/activity.model';
 import { MonTicTacService } from 'src/app/core/services/montictac.service';
-import { ActivityComponent } from '../activity/activity.component';
 
 
 @Component({
@@ -11,20 +10,38 @@ import { ActivityComponent } from '../activity/activity.component';
   styleUrls: ['./activity-list.component.scss']
 })
 export class ActivityListComponent implements OnInit {
+  //console.log('getInitialPeriodListVisibility : activity : ' + activity.id + " : " + activity.title);
+  //console.log('visiblePeriodListActivityIds : ' + this.visiblePeriodListActivityIds)
+
 
   activities!: Activity[];
-  visiblePeriodListActivityIds !: boolean[];
+  visiblePeriodListActivityIds: boolean[] = [];
+
+  displayModalMsgBox: boolean = false;
+  msgBoxParams !: {
+    'title': string,
+    'message': string,
+    'mbType': number,
+    'responseHandler': Function
+  }
+  
   constructor(private tictacService: MonTicTacService) { }
 
   ngOnInit() {
     this.updateActivities();
+    this.msgBoxParams = {
+      'title': 'Default Title',
+      'message': 'default message',
+      'mbType': 0,
+      'responseHandler': () =>{}
+    }
 
   }
 
   updateActivities(): void {
     this.tictacService.getAllActivitiesOrderByLastStart().pipe(
       tap((activities) => this.activities = activities)
-      
+
     )
       .subscribe();
   }
@@ -33,21 +50,52 @@ export class ActivityListComponent implements OnInit {
     this.updateActivities();
   }
   onModifyActivityEvent(): void {
-    
+
     this.updateActivities();
-   
+
   }
   onModifyPeriodListVisibilityEvent(event: { 'activityId': number, 'visible': boolean }) {
+    //console.log('onModifyPeriodListVisibilityEvent');
     this.visiblePeriodListActivityIds[event.activityId] = event.visible;
   }
 
   getInitialPeriodListVisibility(activity: Activity): boolean {
-    if (this.visiblePeriodListActivityIds){
+    //console.log('getInitialPeriodListVisibility : activity : ' + activity.id + " : " + activity.title);
+    //console.log('visiblePeriodListActivityIds : ' + this.visiblePeriodListActivityIds)
+    if (this.visiblePeriodListActivityIds) {
       return this.visiblePeriodListActivityIds[activity.id] ?? false;
     }
-    else{
+    else {
       return false;
     }
-    
   }
+
+  onClickClickMeDiv() {
+    this.msgBoxParams.title = 'testBox';
+    this.msgBoxParams.message = 'Test du fonctionnement de la msgBox en utilisant des Observables pour que le component récupère le bouton cliqué';
+    this.displayModalMsgBox = true;
+    this.msgBoxParams.responseHandler = (response : string) =>{
+      if (response == 'Ok'){
+        console.log('msgBox : confirmation');
+      }
+      else{
+        console.log('msgBox : Pas confirmation !')
+      }
+      this.displayModalMsgBox = false;
+    }
+  }
+
+
+  showMsgBox(event: { 'title': string, 'message': string }) {
+    this.msgBoxParams.title = event.title;
+    this.msgBoxParams.message = event.message;
+    this.displayModalMsgBox = true;
+  }
+
+  onMsgBoxResponse(response:string){
+    console.log(response);
+    this.msgBoxParams.responseHandler(response);
+
+  }
+  
 }
