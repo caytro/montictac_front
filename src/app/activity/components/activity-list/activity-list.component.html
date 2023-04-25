@@ -1,10 +1,6 @@
-<app-message-box *ngIf="displayModalMsgBox" [msgBoxParams]="msgBoxParams"
-    (response)="msgBoxParams.responseHandler($event)" ></app-message-box>
-
-<div (click)="onClickClickMeDiv()"> Click me !</div>
 
 <app-activity *ngFor="let activity of activities" [activity]="activity"
     [initialPeriodListVisibility]="getInitialPeriodListVisibility(activity)" (startStopEvent)="onStartStopEvent()"
     (modifyActivityEvent)="onModifyActivityEvent()"
-    (modififyPeriodListVisibility)="onModifyPeriodListVisibilityEvent($event)" (showMsgBox)="showMsgBox($event)">
+    (modififyPeriodListVisibility)="onModifyPeriodListVisibilityEvent($event)" >
 </app-activity>

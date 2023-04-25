@@ -5,6 +5,7 @@ import { Period } from 'src/app/core/models/period.model';
 import { MonTicTacService } from 'src/app/core/services/montictac.service';
 import { Activity } from '../../../core/models/activity.model';
 import { ActivityListComponent } from '../activity-list/activity-list.component';
+import { MsgBoxParams } from 'src/app/core/models/msg-box-params.model';
 
 @Component({
   selector: 'app-activity',
@@ -13,17 +14,13 @@ import { ActivityListComponent } from '../activity-list/activity-list.component'
 })
 
 export class ActivityComponent implements OnInit {
-
-
-
-
   @Input() activity!: Activity;
   @Input() initialPeriodListVisibility !: boolean;
   @Output() startStopEvent = new EventEmitter();
   @Output() modifyActivityEvent = new EventEmitter();
   @Output() modififyPeriodListVisibility = new EventEmitter<{ 'activityId': number, 'visible': boolean }>();
-  
-  @Output() showMsgBox = new EventEmitter<{ 'title': string, 'message': string}>();
+
+  @Output() showMsgBox = new EventEmitter<{ 'title': string, 'message': string }>();
 
   constructor(private tictacService: MonTicTacService, private router: Router) { }
 
@@ -42,7 +39,7 @@ export class ActivityComponent implements OnInit {
   buttonEditActivityImgUrl: string = "assets/images/modifier.png";
 
   //MsgBox
-  
+  msgBoxParams: MsgBoxParams = new MsgBoxParams({});
 
   ngOnInit() {
     //console.log('activityComponent - ngOnInit this.activity : ' + this.activity.id + " : " + this.activity.title);
@@ -63,8 +60,6 @@ export class ActivityComponent implements OnInit {
   setButtonStartStopText() {
     this.buttonStartStopText = this.isRunning() ? "Stop" : "Start";
   }
-
-
 
   refreshDisplay(): void {
     this.setButtonStartStopText();
@@ -126,11 +121,23 @@ export class ActivityComponent implements OnInit {
   }
 
   onClickDeleteActivity() {
-    this.showMsgBox.emit({'title':'Confirmation', 'message': 'Confirmer la suppression ?'});
-    
-    this.tictacService.deleteActivity(this.activity).pipe(
-      tap(() => this.modifyActivityEvent.emit())
-    ).subscribe();
+    let mbType = MsgBoxParams.YES_BUTTON + MsgBoxParams.NO_BUTTON;
+    let message = "Confirmer la suppression de l'activité " + this.activity.title + "?";
+    this.msgBoxParams = new MsgBoxParams({
+      title: 'Confirmation', message: message, mbType: mbType, visible: true,
+      responseHandler:
+        ((response: string) => {
+          console.log(response);
+          if (response === 'Yes') {
+            this.tictacService.deleteActivity(this.activity).pipe(
+              tap(() => this.modifyActivityEvent.emit())
+            ).subscribe();
+          }
+          this.msgBoxParams.visible = false
+        })
+    });
+
+
   }
 
   onClickDisplayHidePeriodList(): void {
@@ -182,11 +189,24 @@ export class ActivityComponent implements OnInit {
       ))).subscribe();
   }
 
-  onDeletePeriod(event: Period): void {
-    this.tictacService.deletePeriod(event).pipe(
-      tap(() => this.modifyActivityEvent.emit()),
+  onDeletePeriod(period: Period): void {
 
-    ).subscribe();
+    let mbType = MsgBoxParams.YES_BUTTON + MsgBoxParams.NO_BUTTON;
+    let message = "Confirmer la suppression de la période  " + (period.title ?? "Période sans titre") +
+      " de l'activité " + this.activity.title + " ?";
+    this.msgBoxParams = new MsgBoxParams({
+      title: 'Confirmation', message: message, mbType: mbType, visible: true,
+      responseHandler:
+        ((response: string) => {
+          console.log(response);
+          if (response === 'Yes') {
+            this.tictacService.deletePeriod(period).pipe(
+              tap(() => this.modifyActivityEvent.emit()),
 
+            ).subscribe();
+          }
+          this.msgBoxParams.visible = false
+        })
+    });
   }
 }

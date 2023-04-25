@@ -7,8 +7,10 @@
             {{ msgBoxParams.message }}
         </div>
         <div class="buttonBox">
-            <button (click)="onClickOkButton()">OK</button>
-            <button (click)="onClickCancelButton()">Annuler</button>
+            <button *ngIf="displayOkButton()" (click)="onClickOkButton()">OK</button>
+            <button *ngIf="displayCancelButton()" (click)="onClickCancelButton()">Annuler</button>
+            <button *ngIf="displayYesButton()" (click)="onClickYesButton()">Oui</button>
+            <button *ngIf="displayNoButton()" (click)="onClickNoButton()">Non</button>
         </div>
     </div>
 </div>

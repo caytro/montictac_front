@@ -1,3 +1,4 @@
+<app-message-box *ngIf="msgBoxParams.visible"  (response)="msgBoxParams.responseHandler($event)" [msgBoxParams]="msgBoxParams"></app-message-box>
 <div class="activity card" [class]="isRunning() ? 'running' : ''">
     <div class="activityHeader">
         <div class="title">
