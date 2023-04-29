@@ -44,7 +44,7 @@ export class ActivityFormComponent implements OnInit {
     this.router.navigateByUrl("");
   }
 
-  onSubmitForm(event: Event) {
+  onSubmitForm() {
     console.log(this.form.value);
     this.currentActivity.title = this.form.value.formTitle;
     this.currentActivity.description = this.form.value.formDescription;

@@ -14,6 +14,10 @@ export class HeaderComponent implements OnInit {
 
   }
 
+  getUserEmail(): string | null{
+    return this.auth.getUserEmail();
+  }
+  
   onClickLogout() {
     this.auth.logout();
     this.router.navigateByUrl('auth/login');

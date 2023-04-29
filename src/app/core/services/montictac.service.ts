@@ -24,7 +24,8 @@ export class MonTicTacService {
       'Accept': '*/*'
     })
   }
-  serverUrl: string = 'http://localhost:8000/api';
+  //serverUrl: string = 'http://localhost:8000/api/';
+  serverUrl = "https://api.montictac.fr/api/";
 
 
   constructor(private http: HttpClient) {
@@ -35,7 +36,7 @@ export class MonTicTacService {
    */
 
   getAllActivities(): Observable<Activity[]> {
-    const url = this.serverUrl + "/activity/list"
+    const url = this.serverUrl + "activity/list"
     return this.http.get<Activity[]>(url);
   }
 
@@ -46,12 +47,12 @@ export class MonTicTacService {
       ));
   }
   getActivityById(id: number): Observable<Activity> {
-    const url = this.serverUrl + "/activity/" + id;
+    const url = this.serverUrl + "activity/" + id;
     return this.http.get<Activity>(url);
   }
 
   createUpdateActivity(activity: Activity): Observable<Activity> {
-    const url = this.serverUrl + "/activity";
+    const url = this.serverUrl + "activity";
     if (activity.id === 0) {
       return this.http.post<Activity>(url, { title: activity.title, description: activity.description });
     }
@@ -61,17 +62,17 @@ export class MonTicTacService {
   }
 
   stopActivity(activity: Activity): Observable<Activity> {
-    const url = this.serverUrl + '/activity/stop/' + activity.id;
+    const url = this.serverUrl + 'activity/stop/' + activity.id;
     return this.http.get<Activity>(url);
   }
 
   startActivity(activity: Activity): Observable<Activity> {
-    const url = this.serverUrl + '/activity/start/' + activity.id;
+    const url = this.serverUrl + 'activity/start/' + activity.id;
     return this.http.get<Activity>(url);
   }
 
   deleteActivity(activity: Activity): Observable<Object> {
-    const url = this.serverUrl + '/activity/' + activity.id;
+    const url = this.serverUrl + 'activity/' + activity.id;
     return this.http.delete(url);
   }
 
@@ -117,11 +118,11 @@ export class MonTicTacService {
    */
 
   getPeriodById(id: number): Observable<Period> {
-    const url = this.serverUrl + "/period/" + id;
+    const url = this.serverUrl + "period/" + id;
     return this.http.get<Period>(url);
   }
   updatePeriod(period: Period, isRunning: boolean): Observable<Period> {
-    const url = this.serverUrl + '/period/' + period.id;
+    const url = this.serverUrl + 'period/' + period.id;
     //console.log(period);
     const param = {
       'title': period.title,
@@ -132,7 +133,7 @@ export class MonTicTacService {
   }
 
   createPeriod(period: Period, activity: Activity): Observable<Period> {
-    const url = this.serverUrl + '/period';
+    const url = this.serverUrl + 'period';
     const params = {
       'activity_id': activity.id,
       'period': {
@@ -145,7 +146,7 @@ export class MonTicTacService {
   }
 
   deletePeriod(period: Period): Observable<Object> {
-    const url = this.serverUrl + '/period/' + period.id;
+    const url = this.serverUrl + 'period/' + period.id;
     return this.http.delete(url);
   }
 

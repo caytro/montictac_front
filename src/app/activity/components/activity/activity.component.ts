@@ -181,12 +181,9 @@ export class ActivityComponent implements OnInit {
   onSubmitEditPeriodForm(event: { 'updatedPeriod': Period, 'isRunning': boolean }): void {
     //console.log(event.updatedPeriod);
     this.tictacService.updatePeriod(event.updatedPeriod, event.isRunning).pipe(
-      concatMap(() => this.tictacService.getActivityById(this.activity.id).pipe(
-        tap((activity) => this.tictacService.sortActivityPeriods(activity, 'desc')),
-        tap((activity) => this.activity = activity),
-        tap(() => this.refreshDisplay()),
+      
         tap(() => this.modifyActivityEvent.emit())
-      ))).subscribe();
+      ).subscribe();
   }
 
   onDeletePeriod(period: Period): void {

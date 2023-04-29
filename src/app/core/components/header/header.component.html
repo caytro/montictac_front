@@ -2,6 +2,7 @@
 <div class="header">
     <h1>Mon TicTac</h1>
     <div class="user">
-        <button class="logout" title="logout" (click)="onClickLogout()">X</button>
+        <p> {{ getUserEmail() ?? 'Non connecté' }} </p>
+        <button class="logout" title="Déconnexion" (click)="onClickLogout()">&times;</button>
     </div>
 </div>

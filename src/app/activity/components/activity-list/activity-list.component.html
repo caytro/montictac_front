@@ -1,4 +1,4 @@
-
+<app-message-box *ngIf="msgBoxParams.visible"  (response)="msgBoxParams.responseHandler($event)" [msgBoxParams]="msgBoxParams"></app-message-box>
 <app-activity *ngFor="let activity of activities" [activity]="activity"
     [initialPeriodListVisibility]="getInitialPeriodListVisibility(activity)" (startStopEvent)="onStartStopEvent()"
     (modifyActivityEvent)="onModifyActivityEvent()"

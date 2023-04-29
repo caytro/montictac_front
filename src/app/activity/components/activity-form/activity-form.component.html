@@ -3,7 +3,7 @@
         <h1>{{ update ? "Modifier activité" : "Nouvelle activité" }}</h1>
     </div>
     <div class="formGroup">
-        <form [formGroup]="form" (submit)="onSubmitForm($event)">
+        <form [formGroup]="form" (submit)="onSubmitForm()">
 
             <div class="formComponent">
                 <label for="title">Titre</label>

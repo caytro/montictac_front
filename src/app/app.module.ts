@@ -12,6 +12,7 @@ import { AuthModule } from './auth/auth.module';
 import { MenuBarComponent } from './core/components/menu/menu-bar/menu-bar.component';
 import { MenuItemComponent } from './core/components/menu/menu-item/menu-item.component';
 import { ActivityFormComponent } from './activity/components/activity-form/activity-form.component';
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
@@ -27,10 +28,14 @@ import { ActivityFormComponent } from './activity/components/activity-form/activ
     HttpClientModule,
     CoreModule,
     ActivityModule,
-    AuthModule
+    AuthModule,
+    RouterModule
 ],
 providers : [
   
+],
+exports : [
+  RouterModule
 ],
   bootstrap: [AppComponent]
 })

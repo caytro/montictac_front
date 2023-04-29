@@ -15,7 +15,7 @@ export class MenuBarComponent implements OnInit {
 
   ngOnInit(): void {
     this.menuItemParams.push(new MenuItemParam({
-      caption : 'Profil',
+      caption : 'Accueil',
       action : '',
       url : '',
       target: ''
@@ -26,12 +26,12 @@ export class MenuBarComponent implements OnInit {
       url : 'createActivity',
       target: ''
     }));
-    this.menuItemParams.push(new MenuItemParam({
-      caption : 'Stats',
-      action : 'onClick()',
-      url : '',
-      target: ''
-    }));
+    // this.menuItemParams.push(new MenuItemParam({
+    //   caption : 'Stats',
+    //   action : 'onClick()',
+    //   url : '',
+    //   target: ''
+    // }));
     this.menuItemParams.push(new MenuItemParam({
       caption : 'Devel',
       action : '',
