@@ -26,7 +26,7 @@ div.form {
         div.formComponent {
             display: flex;
             flex-direction: column;
-            margin: 1em 10% 1em;
+            margin: 1em 2px 1em;
             align-items: flex-start;
             .dateTime{
                 display: flex;
@@ -38,7 +38,7 @@ div.form {
                 color: #666;
             }
             input{
-                width: 100%;
+                width: 90%;
                 font-size: large;
                 border-radius: 1em;
                 border: grey 2px inset;

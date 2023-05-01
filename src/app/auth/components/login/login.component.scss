@@ -8,14 +8,13 @@ div.form-group {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    
+
     label {
         font-size: small;
     }
 
     input {
         width: 75%;
-        font-size: 2em;
         border-radius: 1em;
         padding-left: 1em;
     }
@@ -28,7 +27,12 @@ div.form-group {
 
     button {
         width: 50%;
-        font-size: 2em;
         border-radius: 1em;
+    }
+}
+
+@media screen and (min-width: 800px){
+    input{
+        font-size: 1.5em;
     }
 }
