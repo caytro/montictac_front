@@ -1,36 +1,50 @@
-div.form {
-    margin: 1em;
-    width: 100%;
-}
-
-div.form-group {
-    margin: 5px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-
-    label {
-        font-size: small;
+.card.create-account {
+    div.form {
+        margin: 1em;
+        width: 100%;
     }
 
-    input {
-        width: 75%;
-        border-radius: 1em;
-        padding-left: 1em;
+    label,
+    h1{
+        background-color: rgba(240, 240, 255, 0.9);
+        margin: 5px;
+        padding: 1px 5px;
+        border-radius: 5px;
     }
-}
 
+    div.form-group {
+        margin: 5px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
 
+        label {
+            font-size: small;
+        }
 
-.submit {
-    margin: 1em;
-
-    button {
-        width: 50%;
-        border-radius: 1em;
+        input {
+            width: 75%;
+            border-radius: 1em;
+            padding-left: 1em;
+            font-size:2em;
+        }
     }
-}
 
+    .submit {
+        margin: 1em;
+
+        button {
+            width: 50%;
+            border-radius: 1em;
+        }
+    }
+    .createAccount a{
+        text-decoration: none;
+        background-color: lightblue;
+        color:black;
+    }
+    
+}
 @media screen and (min-width:800px) {
     div.form-group {
         input {

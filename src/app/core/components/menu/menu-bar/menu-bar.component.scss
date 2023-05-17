@@ -1,14 +1,59 @@
 // mobile firs
 
-div.menuBar{
+div.menuBar {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: flex-end;
     margin: 2px 5% 2px;
-    background-color: rgba(0,0,40, 0.2);
+    background-color: rgba(192, 192, 192, 0.8);
     border-radius: 1em;
     border: 2px inset grey;
     font-size: larger;
     padding: 0.5em 1em 0.5em;
+}
+
+.user {
+    margin-left: 20px;
+
+    .user-connected {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        .logo-et-user-email {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            .icon img {
+                height: 24px;
+                width: 24px;
+            }
+        }
+    }
+
+    .user-not-connected {
+        display:flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        img {
+            height: 24px;
+            width: 24px;
+        }
+    }
+}
+
+
+button.logout {
+    margin-left: 5px;
+    background-color: rgb(109, 105, 105);
+    padding: 2px;
+    border-radius: 0.5em;
+    font-size: 2em;
+
+    &:hover {
+        background-color: red;
+    }
 }

@@ -35,11 +35,11 @@ export class AuthService {
       //.subscribe();
   }
 
-  createAccount(userMail: string, password: string): Observable<Token>{
-    return this.http.post<Object>(this.serverUrl + 'user', {'userMail': userMail, 'password': password}).pipe(
-      concatMap( user => this.login(userMail, password))
-    );
+  createAccount(userMail: string, password: string): Observable<Object>{
+    return this.http.post<Object>(this.serverUrl + 'user', {'userMail': userMail, 'password': password});
+  
   }
+
   logout():void{
     localStorage.removeItem('id_token');
     localStorage.removeItem('userEmail');

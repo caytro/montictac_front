@@ -1,3 +1,20 @@
 <div class="menuBar">
     <app-menu-item *ngFor = "let menuItemParam of menuItemParams" [menuItemParam] = "menuItemParam" class="menuItem"></app-menu-item>
+    <div class="user">
+        <div *ngIf="getUserEmail()" class="user-connected">
+           <div class="logo-et-user-email">
+                <div class="icon">
+                    <img src="/assets/images/user-on.png" alt="">
+                </div>
+                <div class="user-email">{{ getUserEmail() }}</div>
+            </div>
+            <button class="logout" title="Déconnexion" (click)="onClickLogout()">&times;</button>
+        </div>
+
+        <div *ngIf="!!!getUserEmail()">
+            <div class="user-not-connected" title="Connexion" (click)="onClickLogin()">
+                <img src="/assets/images/user-off.png" alt="Connexion">
+            </div>
+        </div>
+    </div>
 </div>

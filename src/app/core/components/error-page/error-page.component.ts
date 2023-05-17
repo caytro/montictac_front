@@ -19,6 +19,7 @@ export class ErrorPageComponent implements OnInit{
       if (state){
         console.log ('state ok');
         console.log('status' + state['status']);
+        
         this.error = {'status': state['status'], 'statusText': state['statusText'], 'message': state['message']}
         
       }
